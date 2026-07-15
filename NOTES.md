@@ -204,6 +204,14 @@ humano" (imposible por definición), se busca **que no se note, o casi**.
 Quitar el barniz de máquina es un problema acotado; imitar humanidad no.
 Pasado el punto dulce, cada punto extra de score aplana buena prosa.
 
+**Nota de naming (discutida y cerrada, sin cambios):** el usuario notó
+tensión entre el nombre "Human-Writer" (suena a "esto ES un humano
+escribiendo") y la vara real del proyecto (quita el barniz, no imita
+humanidad). Se decidió mantener el nombre: es un término de categoría
+estándar en la industria (como "Humanizer", "Undetectable.ai") que se
+entiende como "hace que LEA humano", no como promesa literal. El README
+ya declara el límite honesto en "Honest scope". No se toca nada.
+
 ## Backlog de ideas (sin comprometer)
 
 - **Perfiles por tipo de texto** (`--profile academico|corporativo|tecnico|
