@@ -182,6 +182,28 @@ barre con el catálogo (ahora lo dice el SKILL).
       operativos, nota de enclíticos, vocabulario nuevo, em-dash por
       función, slop de engagement, tier débil con racimo (2026-07-15).
 
+## Evidencia de campo: detectores comerciales · 2026-07-15
+
+El usuario pasó UN MISMO texto humanizado (ensayo literario ES, 6/100 en
+nuestro scorer) por tres detectores comerciales de IA: resultados **0%,
+64% y 100%**. Dispersión total en el mismo input. Confirma empíricamente
+el "Honest scope" del skill: el score de un detector no es una meta — ni
+para perseguir ni para celebrar. Lo único optimizable de forma estable es
+que el texto lea humano.
+
+Segundo aprendizaje de la misma prueba: intenté añadir una regla de
+"densidad de enumeraciones triples" (el ensayo tiene 9) y la probé contra
+el corpus ANTES de agregarla — nuestra mejor reescritura humana (4/100)
+tiene 7. **Refutada: las tríadas de frase son prosa humana normal, no
+tell.** La regla rule-of-three se queda solo con tríadas de palabra
+sueltas. Método confirmado: toda regla candidata se prueba contra los
+textos-oro antes de entrar al scorer.
+
+La vara del proyecto, dicha por el usuario: no se busca "escribir como
+humano" (imposible por definición), se busca **que no se note, o casi**.
+Quitar el barniz de máquina es un problema acotado; imitar humanidad no.
+Pasado el punto dulce, cada punto extra de score aplana buena prosa.
+
 ## Backlog de ideas (sin comprometer)
 
 - **Perfiles por tipo de texto** (`--profile academico|corporativo|tecnico|
