@@ -1,0 +1,5 @@
+I switched to AI tools last year. Honestly, I was skeptical.
+
+The first week was rough. My code kept breaking in ways I didn't understand, and I spent more time debugging the suggestions than I would have spent writing the thing myself. But something clicked around day ten. I stopped treating it like magic and started treating it like a very fast, slightly careless junior dev.
+
+Now? I use it every day. Not for everything — I still write the tricky parts by hand — but for boilerplate, tests, and the boring glue code, it saves me hours. My advice: don't trust it blindly. Read what it gives you. Push back when it's wrong.

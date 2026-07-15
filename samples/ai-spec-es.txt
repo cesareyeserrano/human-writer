@@ -1,0 +1,10 @@
+Requisitos del módulo de monitoreo
+
+El sistema debe conectarse al servicio por TCP en el puerto configurado usando un usuario de solo lectura.
+El sistema debe sondear el dispositivo cada 10 segundos y reconectar con backoff exponencial.
+El sistema debe mostrar una tarjeta en el dashboard con actualización en vivo del estado traducido.
+El sistema debe estimar el porcentaje de batería interpolando el voltaje entre los límites configurados.
+El sistema debe persistir las muestras en la base de datos con una retención de 30 días.
+El sistema debe registrar cada evento de corte guardando inicio, fin y duración del incidente.
+El sistema debe integrarse con el módulo de alertas aplicando ventanas de antirrebote configurables.
+El sistema debe exponer los umbrales de alerta como variables de entorno del servicio.
