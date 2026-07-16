@@ -72,6 +72,26 @@ node aidetect.mjs --json path/to/text.txt
 node aidetect.mjs rewrite.txt   # confirm the score fell
 ```
 
+5. **HARD GATE — verify the exact text you deliver, not a draft.** Before
+   claiming any pattern is removed, run the check on the final text (write
+   it to a file or pipe the verbatim chat answer through stdin):
+
+   ```bash
+   grep -nE '—|–|(\w)--(\w)' final.txt   # must print nothing if you claim "no dashes"
+   ```
+
+   Rules of the gate:
+   - **Headings, labels, and list items count.** "Objective 1 — Title" is
+     an em-dash. There is no "structural" exemption unless the user grants
+     one explicitly — if you keep any on purpose, SAY so and list them.
+   - **Never re-deliver text claiming it is fixed without diffing it
+     against your previous version.** If nothing changed, you fixed
+     nothing. Field evidence: an agent re-sent byte-identical text as
+     "the clean version" after the user said dashes remained.
+   - This applies to every pattern you claim removed, not only dashes —
+     the claim "X is gone" requires a mechanical check for X on the
+     delivered text.
+
 ## The rules, in one screen
 
 Delete or replace these. Full catalog + Spanish equivalents in `references/`.
@@ -158,9 +178,12 @@ node aidetect.mjs samples/ai-mixed-en-es.txt      # lang=mixed — both rule set
   reintroduce your own (or en-dashes / double-hyphens standing in for
   them) without noticing. Field evidence: the most common failure mode of
   this skill is a "humanized" text delivered with the original's dashes
-  intact. The score won't save you — the em-dash rule caps at 9 points.
-  Sweep dashes explicitly (checklist item #1 in both catalogs), and
-  re-score YOUR output the same way you scored the original.
+  intact — including in headings and labels ("Objective 1 — Title"), which
+  agents silently exempt as "structural." The score won't save you — the
+  em-dash rule caps at 9 points, and a low-scoring text (9/100) still
+  failed this way in the field. Sweep dashes explicitly (checklist item #1
+  in both catalogs) and run the hard gate in step 5 on the exact text you
+  deliver.
 
 ## Troubleshooting
 
