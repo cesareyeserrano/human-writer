@@ -212,12 +212,13 @@ estándar en la industria (como "Humanizer", "Undetectable.ai") que se
 entiende como "hace que LEA humano", no como promesa literal. El README
 ya declara el límite honesto en "Honest scope". No se toca nada.
 
-## Bug reportado por el usuario en su benchmark: em-dash incompleto · 2026-07-15
+## Bug reportado por el usuario: em-dash incompleto · 2026-07-15
 
-El usuario, corriendo su propio benchmark, notó que "el skill sigue
-dejando pasar em-dashes". Verificado: el **em-dash real (—)** sí se
-detectaba bien (con o sin espacios). El bug era que sus **sustitutos**
-no se detectaban en absoluto:
+El usuario humanizó un texto con el skill y **el resultado salió con
+em-dashes** — es decir, el agente reescritor los introdujo y el re-score
+no los cazó. Verificado: el **em-dash real (—)** sí se detectaba bien
+(con o sin espacios). El bug era que sus **sustitutos** no se detectaban
+en absoluto:
 
 - **En-dash (–)** usado como raya de estilo (`palabra – palabra`) — 0 hits.
 - **Doble guion (--)** usado como raya de estilo (`palabra -- palabra`) — 0 hits.
@@ -237,6 +238,12 @@ guardas para no romper usos legítimos:
 - Corpus histórico sin cambios (los fixtures no usaban estas formas, así
   que sus scores no se movieron — el fix solo amplía cobertura, no
   reescribe el modelo de pesos).
+
+**Lección más profunda**: el agente que reescribe ES un LLM, y su estilo
+por defecto ES el tell. Puede reintroducir em-dashes (u otras firmas)
+en su propia reescritura sin darse cuenta. El SKILL.md ahora lo advierte
+explícitamente: la reescritura también se barre — el re-score aplica al
+output del agente igual que al texto original.
 
 ## Backlog de ideas (sin comprometer)
 
