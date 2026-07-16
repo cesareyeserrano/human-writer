@@ -282,3 +282,17 @@ del skill en uso real".
 4. Dejar una figura retórica intencional si es el gancho; matar la densidad.
 5. Tras cada cambio de regex: `sh run-tests.sh` (la suite imprime PASS/FAIL por check). Nunca confiar
    en archivos temporales como corpus — solo lo que está en `samples/`.
+
+## Validación del hard gate (ciega, con el caso real) · 2026-07-16
+
+El commit 5e7e87b (compuerta dura, escrito por otra sesión que quedó sin
+push ni validación) se validó aquí: agente fresco, sin contexto ni pistas,
+recibió el texto EXACTO del fallo de campo (3 rayas en encabezados
+"Objective N — Título") con la sola instrucción "humaniza esto usando
+/human-writer". Resultado, verificado mecánicamente por el orquestador
+(diff + grep + re-score independientes, sin confiar en el reporte del
+agente): texto realmente reescrito (no re-envío idéntico), cero rayas,
+encabezados convertidos a "Objective N: título", 0/100, todas las cifras
+del original intactas. El agente ejecutó el paso 5 (hard gate) por
+iniciativa propia. La compuerta dura convierte el modo de fallo más
+repetido del skill en un check binario que un agente fresco sí obedece.
