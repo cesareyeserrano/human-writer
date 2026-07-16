@@ -96,11 +96,14 @@ of a sentence: *…, highlighting the importance of X*, *…, underscoring Y*,
 Fix: start with the subject and a concrete verb; cut trailing clauses or
 promote them to their own sentence with a real claim.
 
-## 5b. Em-dash overuse
+## 5b. Em-dash overuse (and its substitutes: en-dash, double-hyphen)
 
 LLM output uses em-dashes far more often than human writing of the same
 genre, and in places where a human would use a comma, colon, or parentheses.
-Replace each one **by its function**, not mechanically:
+Watch for the same tell wearing different clothes: a spaced **en-dash**
+(*word – word*) or a spaced **double-hyphen** (*word -- word*) serve the
+exact same function and are just as common in AI output — the scorer
+catches all three. Replace each one **by its function**, not mechanically:
 
 - Heading or aside → parentheses: *Lo que está bien (no lo toques)*
 - Before an explanation → colon: *one thing matters: rhythm*

@@ -212,6 +212,32 @@ estándar en la industria (como "Humanizer", "Undetectable.ai") que se
 entiende como "hace que LEA humano", no como promesa literal. El README
 ya declara el límite honesto en "Honest scope". No se toca nada.
 
+## Bug reportado por el usuario en su benchmark: em-dash incompleto · 2026-07-15
+
+El usuario, corriendo su propio benchmark, notó que "el skill sigue
+dejando pasar em-dashes". Verificado: el **em-dash real (—)** sí se
+detectaba bien (con o sin espacios). El bug era que sus **sustitutos**
+no se detectaban en absoluto:
+
+- **En-dash (–)** usado como raya de estilo (`palabra – palabra`) — 0 hits.
+- **Doble guion (--)** usado como raya de estilo (`palabra -- palabra`) — 0 hits.
+
+Ambos son intercambiables con el em-dash real en output de IA (y en
+copy-paste desde distintas fuentes que normalizan el carácter distinto).
+
+**Fix**: la regla `em-dash` ahora captura las tres formas, pero con
+guardas para no romper usos legítimos:
+- En-dash y doble guion solo cuentan **con espacio a ambos lados**
+  (`\s–\s`, `\s--\s`). Esto evita falsos positivos en:
+  - Rangos numéricos sin espacio: `2015–2023` (en-dash pegado a dígitos).
+  - Flags de CLI: `--json`, `--lang` (el guion doble no tiene espacio
+    inmediatamente después, a diferencia de la raya de estilo).
+- Verificado contra nuestros propios docs (README.md, SKILL.md) para
+  confirmar que no se auto-flaguean los flags que documentamos.
+- Corpus histórico sin cambios (los fixtures no usaban estas formas, así
+  que sus scores no se movieron — el fix solo amplía cobertura, no
+  reescribe el modelo de pesos).
+
 ## Backlog de ideas (sin comprometer)
 
 - **Perfiles por tipo de texto** (`--profile academico|corporativo|tecnico|

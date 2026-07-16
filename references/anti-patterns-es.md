@@ -103,10 +103,14 @@ Arreglo: borra el preámbulo y empieza por el hecho concreto. ("En la
 actualidad" a secas es español estándar — no lo persigas; el tell es la
 ambientación grandilocuente.)
 
-## 6b. Guion largo (em-dash / raya) en exceso
+## 6b. Guion largo (em-dash / raya) en exceso — y sus sustitutos
 
 La IA usa la raya mucho más que un humano del mismo género, y donde iría
-coma, dos puntos o paréntesis. Reemplaza cada una **según su función**:
+coma, dos puntos o paréntesis. El mismo tell aparece disfrazado: un
+**guion corto con espacios** (*palabra – palabra*) o un **doble guion con
+espacios** (*palabra -- palabra*) cumplen la misma función y son igual de
+comunes en texto de IA — el scorer detecta las tres formas. Reemplaza
+cada una **según su función**:
 
 - Encabezado o inciso → paréntesis: *Lo que está bien (no lo toques)*
 - Antes de una explicación → dos puntos

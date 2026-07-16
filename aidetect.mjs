@@ -23,8 +23,14 @@ import { readFileSync } from "node:fs";
 // that are normal in formal human writing — one "crucial" is not a tell).
 
 const SHARED = [
-  { id: "em-dash", weight: 3, cap: 9, re: /\s—\s|—/g,
-    why: "Em-dash overuse is a strong LLM tell (AI uses them several times more often than humans).",
+  { id: "em-dash", weight: 3, cap: 9,
+    // Real em-dash (spaced or not) — PLUS the two substitutes AI/copy-paste
+    // commonly use instead: a spaced en-dash ( – ) and a spaced double-hyphen
+    // ( -- ). Both require surrounding spaces so this doesn't fire on digit
+    // ranges ("2020–2023") or CLI flags ("--json", which has no space after
+    // the hyphens).
+    re: /\s—\s|—|\s–\s|\s--\s/g,
+    why: "Em-dash overuse is a strong LLM tell (AI uses them several times more often than humans). Also catches en-dash (–) and double-hyphen (--) used the same way.",
     fix: "Replace by function: heading→parentheses, explanation→colon, joined ideas→period or comma, contrast→conjunction. Keep at most one per few paragraphs." },
   { id: "curly-quotes", weight: 1, cap: 3, re: /[“”‘’]/g,
     why: "Curly/smart quotes suggest auto-formatted machine output.",

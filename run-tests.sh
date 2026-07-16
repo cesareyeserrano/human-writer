@@ -95,6 +95,10 @@ noprobe() {
   fi
 }
 
+probe "This is a test – with an en dash used as a dash substitute." en em-dash "em-dash rule catches spaced en-dash (–)"
+probe "This is a test -- with a double hyphen used as a dash substitute." en em-dash "em-dash rule catches spaced double-hyphen (--)"
+noprobe "The study covers 2015–2023 across all regions in the panel data set." en em-dash "FP guard: digit range with unspaced en-dash (2015–2023)"
+noprobe "Run the tool with --json to get machine output, or --lang es to force Spanish." en em-dash "FP guard: CLI flags --json / --lang"
 probe "The plan failed. But here's the thing. In a world where everyone automates, the bottom line? Nobody reads the output." en en-slop-phrases "slop phrases EN"
 probe "It isn't just a buzzword — it's a transformative force for the whole team." en en-negative-parallel "negative parallelism EN (em-dash separator)"
 probe "Moreover, it's important to note that adoption keeps growing every year." en en-transitions "transitions EN (contracted it's important)"
