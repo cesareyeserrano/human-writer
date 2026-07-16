@@ -214,11 +214,24 @@ ya declara el límite honesto en "Honest scope". No se toca nada.
 
 ## Bug reportado por el usuario: em-dash incompleto · 2026-07-15
 
-El usuario humanizó un texto con el skill y **el resultado salió con
-em-dashes** — es decir, el agente reescritor los introdujo y el re-score
-no los cazó. Verificado: el **em-dash real (—)** sí se detectaba bien
-(con o sin espacios). El bug era que sus **sustitutos** no se detectaban
-en absoluto:
+El usuario humanizó un texto con el skill y el resultado salió con
+em-dashes. Precisión importante (corregida dos veces): **el texto
+ORIGINAL traía los guiones y la humanización los dejó vivos** — no los
+introdujo el reescritor, no los quitó. Dos causas raíz encontradas:
+
+**Causa 1 — el checklist no los mencionaba.** Ninguno de los dos
+checklists de reescritura (EN/ES) incluía los em-dashes: el tell #1 de
+todas las pruebas de campo no estaba en la compuerta final. El agente
+arregla lo enumerado, re-puntúa, y entrega con las rayas intactas.
+Agravante: la regla em-dash topa en 9 puntos, así que hasta 8 rayas
+apenas mueven el score — el número "se ve bien" con el tell dominante
+vivo. FIX: ítem explícito #1 en ambos checklists ("rayas barridas, deja
+máximo una deliberada") + advertencia en gotchas de SKILL.md. El cap NO
+se subió: prosa humana real usa rayas (el texto de asesoría del Test 3,
+humano, tenía 8) y subirlo crearía falsos positivos.
+
+**Causa 2 — sustitutos invisibles.** El em-dash real (—) sí se
+detectaba; sus sustitutos no:
 
 - **En-dash (–)** usado como raya de estilo (`palabra – palabra`) — 0 hits.
 - **Doble guion (--)** usado como raya de estilo (`palabra -- palabra`) — 0 hits.
@@ -239,11 +252,12 @@ guardas para no romper usos legítimos:
   que sus scores no se movieron — el fix solo amplía cobertura, no
   reescribe el modelo de pesos).
 
-**Lección más profunda**: el agente que reescribe ES un LLM, y su estilo
-por defecto ES el tell. Puede reintroducir em-dashes (u otras firmas)
-en su propia reescritura sin darse cuenta. El SKILL.md ahora lo advierte
-explícitamente: la reescritura también se barre — el re-score aplica al
-output del agente igual que al texto original.
+**Lección más profunda**: el agente que reescribe ES un LLM, y las rayas
+le leen naturales — por eso las deja pasar (las del original) y puede
+reintroducir las suyas. El score no lo salva (cap de 9). La compuerta
+correcta es el checklist explícito, no el número. El SKILL.md ahora lo
+dice sin rodeos, con esto registrado como "el modo de fallo más común
+del skill en uso real".
 
 ## Backlog de ideas (sin comprometer)
 

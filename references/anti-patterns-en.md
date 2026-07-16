@@ -187,6 +187,12 @@ quotes unless house style says otherwise.
 
 Before returning humanized text, confirm:
 
+- [ ] **Dashes swept**: every em-dash (—), spaced en-dash (–) or spaced
+      double-hyphen (--) from the original is gone, replaced by function
+      (§5b). Keep at most ONE, and only if it's deliberate style. This is
+      the most-missed item in field use — check it explicitly, don't trust
+      the score (the em-dash rule caps at 9 points, so several dashes
+      barely move the number).
 - [ ] No "it's not just X, it's Y" and no "not only… but also" left.
 - [ ] Inflated-word cluster gone (delve/tapestry/realm/leverage/foster…).
 - [ ] No sentence opens with Moreover/Furthermore/In conclusion.

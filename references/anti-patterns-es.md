@@ -197,6 +197,12 @@ de verdad es una lista. Mayúscula solo en la primera palabra de los títulos.
 
 Antes de entregar el texto humanizado, confirma:
 
+- [ ] **Rayas barridas**: toda raya (—), guion corto con espacios (–) o
+      doble guion con espacios (--) del original desapareció, reemplazada
+      según su función (§6b). Deja como máximo UNA, y solo si es estilo
+      deliberado. Es el punto que más se escapa en uso real — revísalo
+      explícitamente, no confíes en el score (la regla de em-dash topa en
+      9 puntos, así que varias rayas apenas mueven el número).
 - [ ] Sin "no es solo X, sino Y" ni "no solo… sino también".
 - [ ] Sin racimo de palabras infladas (sumérgete/desbloquear/potenciar/tapiz…).
 - [ ] Ninguna frase abre con Además/Asimismo/En conclusión/Cabe destacar.

@@ -153,12 +153,14 @@ node aidetect.mjs samples/ai-mixed-en-es.txt      # lang=mixed — both rule set
   burstiness is still low, you replaced one uniform rhythm with another.
 - **Rewriting is the agent's job, not the script's.** `aidetect.mjs` never
   edits text. It only measures, so you can measure the before and after.
-- **You are an LLM — your default style IS the tell.** When you rewrite,
-  you will reintroduce em-dashes (or en-dashes / double-hyphens standing
-  in for them), triads, and inflated words without noticing, because
-  that's how you naturally write. The re-score in step 4 applies to YOUR
-  output: if your rewrite scores points, the tells are now yours. Sweep
-  your own text the same way you swept the original.
+- **You are an LLM — your default style IS the tell.** Em-dashes read
+  natural to you, so you will LEAVE the original's dashes in place and
+  reintroduce your own (or en-dashes / double-hyphens standing in for
+  them) without noticing. Field evidence: the most common failure mode of
+  this skill is a "humanized" text delivered with the original's dashes
+  intact. The score won't save you — the em-dash rule caps at 9 points.
+  Sweep dashes explicitly (checklist item #1 in both catalogs), and
+  re-score YOUR output the same way you scored the original.
 
 ## Troubleshooting
 
