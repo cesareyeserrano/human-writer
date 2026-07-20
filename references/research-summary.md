@@ -83,6 +83,37 @@ concrete, specific detail** over generic phrasing; (3) **allow idiosyncratic
 voice and controlled imperfection**; (4) **make direct claims** instead of
 hedged ones. *(SSRN 5833302; gptzero.me; arXiv 2402.14873. High.)*
 
+**Expanded in the 2026 positive-catalog pass** (see
+[human-patterns.md](human-patterns.md) for the actionable version; 25
+sources → 24 claims confirmed 3-0):
+
+- **Burstiness is the strongest, most-replicated positive marker** — but the
+  human signal is the *range*, including the long tail. LLMs concentrate in a
+  10–30-token band; humans "exhibit more scattered sentence length
+  distributions" and produce long sentences more often. So "add short punchy
+  sentences" is only half — a genuinely long sentence is as human as a short
+  one. *(arXiv 2308.09067; Nature s41599-025-05986-3; T&F 2507183. High.)*
+- **Personal voice / stylistic individuality** survives best against neural
+  detectors: humans scatter widely in stylometric space (Burrows' Delta),
+  LLMs cluster tightly; temperature/alignment don't recover the diversity.
+  *(Nature s41599-025-05986-3; arXiv 2507.00838. High. Scope: creative
+  writing.)*
+- **Morphosyntactic variety, not lexical density** — humans use more
+  adjectives, pronouns, adpositions, auxiliaries and shorter constituents;
+  AI packs meaning into dense noun phrases. Break the noun-stack into a clause
+  with a verb. *(MDPI 16/11/979; arXiv 2308.09067. High.)*
+- **Do NOT chase lexical diversity** — ChatGPT scored *higher* than human L2
+  writers on TTR/MTLD/Voc-D. Higher lexical diversity points toward AI, not
+  away. *(Frontiers feduc.2025.1616935. High.)* This is why the anti-pattern
+  catalog targets *inflated* vocabulary, not "richer" vocabulary.
+- **Low perplexity / plain writing is a legitimate human register**, not a
+  tell to fix: it's why detectors falsely flag ~61% of non-native TOEFL
+  essays. Validates the skill's ~10–15 floor for structured/plain prose.
+  *(Liang 2023, Patterns S2666389923001307. High.)*
+- **Weakest-evidenced:** "controlled imperfection" (fragments, digressions,
+  self-correction) has little direct empirical grounding as a measurable
+  marker — keep it as light craft advice, don't oversell it.
+
 ## Refuted / be careful (things NOT to claim)
 
 - ❌ **"Adding sentence-length variation (burstiness) also raises
@@ -93,18 +124,40 @@ hedged ones. *(SSRN 5833302; gptzero.me; arXiv 2402.14873. High.)*
 - ❌ Specific vendor accuracy boasts ("98%+, <1% false positives") did not
   survive verification. Don't cite them.
 
-## Spanish — an explicit evidence gap
+## Spanish — AI markers vs. what reads native (EN↔ES no transfiere)
 
-The verified English-language corpus contains **no direct evidence** on
-Spanish-specific AI markers. The Spanish catalog in
-[anti-patterns-es.md](anti-patterns-es.md) is built from (a) a Spanish-native
-practitioner source ("11 señales de que ChatGPT escribió tu texto," which
-confirms overuse of *gerundios* and formulaic markers like *además / por
-otro lado*; it also names the *"poder + infinitivo"* hedging periphrasis,
-which is **not yet encoded** in the scorer — see NOTES.md open gaps) and
-(b) craft translation of the English tells. It is **less rigorously
-verified** than the English catalog. The AI-vocabulary lists are also era-specific and rotate as
-models change — expect to update them.
+Two separate questions, two different evidence levels:
+
+**(a) Spanish-specific AI *tells*** — still the weaker corner. The Spanish
+catalog in [anti-patterns-es.md](anti-patterns-es.md) draws on a
+Spanish-native practitioner source ("11 señales de que ChatGPT escribió tu
+texto," confirming overuse of *gerundios* and formulaic *además / por otro
+lado*; it also names the *"poder + infinitivo"* hedging periphrasis, **not
+yet encoded** — see NOTES.md) plus craft translation of the English tells.
+Less rigorously verified than the English catalog; the vocab lists are
+era-specific and rotate.
+
+**(b) What reads *native* in Spanish vs English** — this **is** now backed by
+peer-reviewed contrastive-rhetoric evidence (2026 pass), and the headline is
+that **the two languages don't share a humanizing recipe**:
+
+- Spanish academic writers **hedge less** and use **more reader pronouns and
+  imperatives** — a more assertive, reader-inclusive stance. English writers
+  **hedge more** and are more dialogic about the reader. So Spanish-style
+  directness reads native; calquing English hedges ("podría argumentarse
+  que…") reads translated. *(Mur-Dueñas 2011, J. Pragmatics
+  S0378216611001366: engagement 18.5 vs 14.5 per 10k words. High.)*
+- Spanish has native hedging devices English lacks — the **conditional -ría**
+  (*sería conveniente*, *podría interpretarse*), underused by L2 writers.
+  *(Gang Yao, Ibérica. High.)*
+- Register dimensions are **partly language-specific**; a claimed
+  cross-linguistic oral/literate "universal" was **refuted 0-3** here. Don't
+  assume a register trait ports across languages. *(Biber 1995, Cambridge UP.
+  High.)*
+- Caveat: this evidence is **academic-register**; whether it holds for
+  conversational/literary/corporate Spanish is unestablished (NOTES open gap).
+
+See [human-patterns.md](human-patterns.md) §C for the actionable version.
 
 ## Sources (verified subset)
 
@@ -117,3 +170,17 @@ models change — expect to update them.
 - False positives on human text — https://pmc.ncbi.nlm.nih.gov/articles/PMC12331776/
 - AI vs human writing features (SSRN) — https://papers.ssrn.com/sol3/Delivery.cfm/5833302.pdf?abstractid=5833302
 - Spanish-native tell catalog — https://luisorlandolencarpio.substack.com/p/11-senales-de-que-chatgpt-escribio
+
+Positive-catalog pass (2026), verified subset:
+
+- Burstiness / scattered sentence length (EN news) — https://arxiv.org/pdf/2308.09067
+- Burstiness + Burrows' Delta clustering (creative) — https://www.nature.com/articles/s41599-025-05986-3
+- AI lower perplexity / uniform structure — https://www.tandfonline.com/doi/full/10.1080/09540091.2025.2507183
+- Stylometry recovers author signal, temp/alignment don't — https://arxiv.org/pdf/2507.00838
+- Morphosyntactic-category differences (essays) — https://www.mdpi.com/2078-2489/16/11/979
+- ChatGPT > L2 on lexical diversity — https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2025.1616935/full
+- No single metric separates (diffusion/LLaDA) — https://arxiv.org/pdf/2507.10475
+- GPT detectors biased vs non-native writers — https://www.sciencedirect.com/science/article/pii/S2666389923001307
+- EN↔ES metadiscourse (Mur-Dueñas 2011) — https://www.researchgate.net/publication/251586757
+- Spanish hedging with conditional -ría (Gang Yao) — https://www.academia.edu/146197617
+- Cross-linguistic register dimensions (Biber 1995) — https://www.cambridge.org/core/books/dimensions-of-register-variation/FF817F2C32378B398C8019090381352E

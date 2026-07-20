@@ -121,14 +121,29 @@ inicial).
 
 ## What "human" looks like (introduce these)
 
-- **Burstiness** — vary sentence length hard. A three-word sentence next to
-  a thirty-word one. The scorer stops penalizing at CV ≥ 0.5 (it also
-  penalizes a mean sentence length over 24 words — split long sentences).
-- **Specificity** — concrete nouns, real numbers, named things. AI defaults
-  to the generic.
-- **Voice** — contractions, a first-person aside, a mild opinion, an
-  occasional sentence fragment. Controlled imperfection.
+Full evidence-based catalog in [references/human-patterns.md](references/human-patterns.md)
+(the positive-space complement to the anti-patterns files). The essentials:
+
+- **Burstiness** — vary sentence length hard, in *both* directions. A
+  three-word sentence next to a forty-word one. The human signal is the
+  *range* including the long tail — LLMs cluster in a 10–30-word band, so a
+  genuinely long sentence is as human as a short one. (Don't fake variation
+  by only chopping things short — relentlessly short is uniform too.)
+- **Voice** — first person, a stated stance, a real aside, idiosyncrasy. This
+  is the marker that best survives neural detectors; introduce it where the
+  register allows.
+- **Break dense noun-phrase stacks** — humans use more verbs, pronouns and
+  auxiliaries; AI packs meaning into noun piles. "We changed how we keep
+  customers" beats "implementation of a customer-retention framework."
+- **Specificity** — concrete nouns, real numbers, named things (only ones
+  already in the text — never invented).
 - **Directness** — claim things outright instead of hedging.
+- **Don't chase "richer" vocabulary** — high lexical diversity points toward
+  AI, not away (ChatGPT beats humans on it). Plain, specific words win.
+- **Spanish ≠ English here** — Spanish reads native when it's *more* direct
+  and reader-inclusive (fewer hedges, more "tú/usted" and imperatives);
+  English tolerates more hedging. Don't calque one language's voice onto the
+  other. See human-patterns.md §C.
 
 ## Verifying / re-running the scorer
 
@@ -200,7 +215,8 @@ node aidetect.mjs samples/ai-mixed-en-es.txt      # lang=mixed — both rule set
 ## Files
 
 - [`aidetect.mjs`](aidetect.mjs) — the scorer (the driver). Run it, read it, extend the pattern dicts.
-- [`references/anti-patterns-en.md`](references/anti-patterns-en.md) — English catalog with before/after.
-- [`references/anti-patterns-es.md`](references/anti-patterns-es.md) — Spanish catalog with before/after.
+- [`references/anti-patterns-en.md`](references/anti-patterns-en.md) — English catalog with before/after (what to remove).
+- [`references/anti-patterns-es.md`](references/anti-patterns-es.md) — Spanish catalog with before/after (what to remove).
+- [`references/human-patterns.md`](references/human-patterns.md) — positive catalog (EN/ES): what to *introduce*, incl. the EN↔ES contrast.
 - [`references/research-summary.md`](references/research-summary.md) — how detectors work; sources.
 - [`samples/`](samples/) — AI + human fixtures for verifying the scorer.

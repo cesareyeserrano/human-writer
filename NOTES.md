@@ -320,6 +320,59 @@ emoji/negrita, espejos ES) y ambos checklists ampliados.
 codificados. "abordar" sigue FUERA a propósito ("abordar el problema" es
 español académico normal — FP-propenso; confirmar con textos reales).
 
+## Ronda de investigación — catálogo POSITIVO · 2026-07-20
+
+Deep-research (108 agentes, 25 fuentes → 71 claims → 24 confirmados 3-0, 1
+refutado) sobre patrones de escritura humana natural, para complementar el
+catálogo de tells con el lado positivo (qué INTRODUCIR). Entregable nuevo:
+`references/human-patterns.md` (bilingüe); `research-summary.md` ampliado.
+
+Hallazgos accionables (todos verificados por votación adversarial):
+
+- **Burstiness = el marcador más replicado**, pero la señal humana es el
+  *rango* incluido el extremo LARGO. Los LLM se concentran en 10-30 tokens;
+  los humanos "scatter" y producen frases largas más a menudo. Matiz para el
+  skill: "añade frases cortas" es la mitad — una frase genuinamente larga es
+  tan humana como una corta. El SKILL ya decía "mezcla corta+larga"; se
+  reforzó el punto del extremo largo.
+- **Voz/individualidad estilística** es lo que mejor sobrevive a detectores
+  neuronales (humanos dispersos en espacio estilométrico, LLM en clúster
+  apretado; temperatura/alignment no recuperan la diversidad).
+- **Variedad morfosintáctica, no densidad léxica**: humanos usan más
+  adjetivos/pronombres/preposiciones/auxiliares y constituyentes más cortos;
+  IA apila sustantivos. Mover: romper la pila de sustantivos en cláusula con
+  verbo.
+- **NO perseguir diversidad léxica**: ChatGPT supera a humanos L2 en
+  TTR/MTLD/Voc-D. Subir vocabulario "rico" apunta a IA. Confirma por qué el
+  anti-catálogo ataca vocabulario *inflado*, no "más rico".
+- **Baja perplejidad = registro humano legítimo** (61% de falsos positivos
+  en TOEFL por eso). Valida el piso ~10-15 del skill: humanizar ≠ florear.
+- **Ningún métrica sola es prueba** (LLaDA iguala perplejidad y burstiness
+  humanas). Refuerza el "honest scope".
+- **EN↔ES no comparte receta** (lo más nuevo y accionable): el español
+  académico *cubre menos* (hedge), usa *más* pronombres de lector e
+  imperativos (voz asertiva, inclusiva); el inglés cubre más y es más
+  dialógico. Español tiene hedge nativo propio (condicional -ría) que el L2
+  infrautiliza. Cerrar el "hueco de evidencia ES" que declaraba el
+  research-summary. Caveat: evidencia de registro académico; conversacional/
+  literario/corporativo sin confirmar.
+- **Refutado 0-3**: el supuesto universal oral/literario entre lenguas. No
+  asumir que un rasgo de registro transfiere entre idiomas.
+- **Lo menos respaldado**: "imperfección controlada" (fragmentos,
+  digresiones, autocorrección) tiene poca base empírica directa como
+  marcador medible — se mantiene como consejo de oficio ligero, sin
+  venderlo como evidenciado.
+
+**Candidata a scorer (NO aplicada, pendiente de validar contra el corpus-oro
+antes de entrar, como manda el método):** hoy el scorer penaliza mean > 24
+palabras (+6). La investigación dice que los humanos producen frases largas
+*más* a menudo y los LLM evitan el extremo largo — así que penalizar la media
+alta podría, en teoría, castigar una voz humana de frase larga legítima. En
+la práctica el peso es bajo y va junto a la lógica de CV/ventana, así que no
+se toca sin evidencia. Idea a explorar: recompensar el *rango* (presencia de
+frases largas Y cortas) en vez de penalizar la media. Probar contra
+human-academic-* antes de cualquier cambio.
+
 ## Backlog de ideas (sin comprometer)
 
 - **Voz del usuario + aprendizaje continuo** (diseñado 2026-07-20, sin
