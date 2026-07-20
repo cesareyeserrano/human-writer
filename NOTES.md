@@ -259,6 +259,67 @@ correcta es el checklist explícito, no el número. El SKILL.md ahora lo
 dice sin rodeos, con esto registrado como "el modo de fallo más común
 del skill en uso real".
 
+## Ronda adversarial 2 — falsos negativos · 2026-07-20
+
+Ataque dirigido con textos "IA de manual" construidos con patrones fuera
+del catálogo (informe completo en `reviews/adversarial-2026-07-20.md`).
+Resultado del ataque: slop EN 3/100 y slop ES 0/100, "reads human", con la
+suite en verde. Diez gaps, todos corregidos en esta ronda:
+
+- **Paralelismo negativo con PUNTO** ("It's not magic. It's math." /
+  "No es magia. Es matemáticas.") — la forma más pulida escapaba en ambos
+  idiomas; los separadores solo cubrían `, ; : — –`. EN exige `It's/They're`
+  con apóstrofo tras el punto (el posesivo "Its" no dispara); ES exige
+  `Es/Son/Se trata de` con ventana {0,4}.
+- **Guion simple espaciado** (`palabra - palabra`) como raya — añadido a
+  `em-dash` con guard de letra a ambos lados y espacio no-salto: bullets
+  markdown (`\n- item`), matemática (`5 - 3`) y rangos con dígitos callan.
+- **Coletillas -ing operativas EN** (", ensuring/enabling/allowing/
+  empowering/transforming/streamlining…") — el mismo bug que Tests 5-6
+  arreglaron en ES seguía vivo en EN. ~20 gerundios añadidos.
+- **Fórmulas verbales EN**: plays a crucial/key role, serves as a,
+  stands as a, continues to evolve/grow → en-inflated-vocab. Vocabulario
+  nuevo EN: transformative, empower, streamline, revolutionize, holistic,
+  synergy, paradigm shift; tier débil: essential, key factor/role/….
+- **Espejos ES del slop EN**: "tu futuro yo te lo agradecerá" (nueva regla
+  `es-slop-phrases`), "ya sea que" (calco), "A continuación/En definitiva/
+  Hoy en día" (transiciones, solo a inicio de frase), "¿El resultado?" y
+  más sustantivos en la pregunta-etiqueta, "un abanico de", "herramienta
+  poderosa", "factor/papel/rol/pieza clave", "marca un antes y un después",
+  empoderar/sinergia/holístico/disruptivo/transformador (inflado).
+- **Slop EN nuevo**: "The result?/takeaway?/upshot?…", "Whether you're a",
+  "Let's explore/unpack". BUG de paso: el `\b` final de la alternación
+  hacía imposible matchear las ramas terminadas en `?` — "the bottom
+  line?" llevaba roto desde su creación (el probe de la suite pasaba por
+  otra rama). Fix: lookahead `(?![\w'’])` en vez de `\b`. Misma lección
+  que los enclíticos: `\b` tras carácter no-ASCII o puntuación no matchea
+  ("agradecerá\b" tampoco — corregido).
+- **NUEVA regla compartida `emoji-decor`** (min 2): emojis de
+  sección/viñeta (🚀✅💡) — el layout de tarjeta de ChatGPT; estaba en el
+  catálogo y el scorer no lo medía. Un emoji solo no puntúa.
+- **NUEVA regla compartida `bold-label`** (min 2): tarjetas
+  "**Velocidad:** …" — el bold rompía el anchor de label-colon.
+- **Burstiness por VENTANA**: con CV global ≥ 0.5, se escanean ventanas de
+  8 frases; una ventana con CV < 0.22 penaliza +6 — cierra el gaming de
+  "texto plano + dos outliers cortos" (la CV global es manipulable).
+- **Doble conteo en mixed**: crucial/vital son idénticas en ambos idiomas
+  y puntuaban en los dos tiers débiles; nuevo mecanismo `group` — el
+  primer ruleset que reclama un índice gana. Validado: 50/50 con 18
+  ocurrencias → EN 12 + ES 6 (solo "fundamental"), antes 12+18.
+- **detectLang**: fuera "inteligencia" (resto de fixture); entran
+  es/se/su/lo/del/al — el 50/50 real que antes caía en "en" ahora da
+  "mixed".
+
+Fixtures nuevos: `samples/ai-cards-en.txt` (3→73) y `ai-cards-es.txt`
+(0→58), los dos textos del ataque. Suite: 41→64 checks, todo en verde,
+corpus histórico sin regresiones. Catálogos EN/ES actualizados con todas
+las formas nuevas (punto, guion simple, -ing operativo, tarjetas
+emoji/negrita, espejos ES) y ambos checklists ampliados.
+
+"En definitiva" y "clave" (adjetivo pospuesto) salen de gaps abiertos:
+codificados. "abordar" sigue FUERA a propósito ("abordar el problema" es
+español académico normal — FP-propenso; confirmar con textos reales).
+
 ## Backlog de ideas (sin comprometer)
 
 - **Perfiles por tipo de texto** (`--profile academico|corporativo|tecnico|

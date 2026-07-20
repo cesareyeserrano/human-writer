@@ -24,14 +24,29 @@ import { readFileSync } from "node:fs";
 
 const SHARED = [
   { id: "em-dash", weight: 3, cap: 9,
-    // Real em-dash (spaced or not) — PLUS the two substitutes AI/copy-paste
-    // commonly use instead: a spaced en-dash ( – ) and a spaced double-hyphen
-    // ( -- ). Both require surrounding spaces so this doesn't fire on digit
-    // ranges ("2020–2023") or CLI flags ("--json", which has no space after
-    // the hyphens).
-    re: /\s—\s|—|\s–\s|\s--\s/g,
-    why: "Em-dash overuse is a strong LLM tell (AI uses them several times more often than humans). Also catches en-dash (–) and double-hyphen (--) used the same way.",
+    // Real em-dash (spaced or not) — PLUS the three substitutes AI/copy-paste
+    // commonly use instead: a spaced en-dash ( – ), a spaced double-hyphen
+    // ( -- ), and a spaced single hyphen ( - ), the usual stand-in on Spanish
+    // keyboards. En-dash/double-hyphen require surrounding spaces so digit
+    // ranges ("2020–2023") and CLI flags ("--json") stay silent. The single
+    // hyphen additionally requires a LETTER on both sides and non-newline
+    // whitespace, so markdown bullets ("\n- item") and math ("5 - 3") stay
+    // silent.
+    re: /\s—\s|—|\s–\s|\s--\s|(?<=\p{L})[^\S\n]-[^\S\n](?=\p{L})/gu,
+    why: "Em-dash overuse is a strong LLM tell (AI uses them several times more often than humans). Also catches en-dash (–), double-hyphen (--) and spaced single hyphen ( - ) used the same way.",
     fix: "Replace by function: heading→parentheses, explanation→colon, joined ideas→period or comma, contrast→conjunction. Keep at most one per few paragraphs." },
+  { id: "emoji-decor", weight: 3, cap: 9, min: 2,
+    // Emoji as section/bullet decoration (🚀 ✅ 💡). One can be deliberate;
+    // two or more in prose is the ChatGPT card layout.
+    re: /[\u{1F000}-\u{1F0FF}\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]/gu,
+    why: "Emoji bullets/section markers are ChatGPT layout slop — near-unambiguous in prose.",
+    fix: "Delete the emoji; let the text carry the structure." },
+  { id: "bold-label", weight: 3, cap: 9, min: 2,
+    // "**Speed:** description" bullet cards. One bold label is a normal doc
+    // device; a stack of them is the AI summary-card template.
+    re: /(?:^|\n)[^\S\n]*(?:[-*•]\s+|\d+[.)]\s+)?(?:[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}]\s*)?\*\*[^*\n]{2,40}:\*\*/gu,
+    why: "Bold-label bullet cards (\"**Speed:** …\" ×N) — AI summary-card structure.",
+    fix: "Fold the labels into prose, or keep the list but drop the bold-label template." },
   { id: "curly-quotes", weight: 1, cap: 3, re: /[“”‘’]/g,
     why: "Curly/smart quotes suggest auto-formatted machine output.",
     fix: "Use straight quotes unless the house style demands curly." },
@@ -42,19 +57,20 @@ const SHARED = [
 
 const EN = [
   { id: "en-negative-parallel", weight: 6, cap: 18,
-    re: /\bit['’]?s not (?:just|only|merely|simply|about)\b|\bit['’]?s not\s+[\w'’]+(?:\s+[\w'’]+){0,5}\s*[,;:—–]\s*it['’]?s\b|\bnot only\b[^.]*\bbut(?:\s+also)?\b|\bnot\s+[\w'’]+(?:\s+[\w'’]+){0,5},\s+but\b|\b(?:is|are|was|were)n['’]?t\s+[\w'’]+(?:\s+[\w'’]+){0,5}\s*[,;:—–]\s*(?:it['’]?s|its|they['’]?re|but|rather)\b|\b(?:does|do|did)n['’]?t\s+[\w'’]+(?:\s+[\w'’]+){0,5};\s+it\b/gi,
-    why: "Negative parallelism: \"it's not X, it's Y\" / \"not X, but Y\" / \"isn't A — it's B\". LLMs use it ~3x more than humans.",
+    re: /\bit['’]?s not (?:just|only|merely|simply|about)\b|\bit['’]?s not\s+[\w'’]+(?:\s+[\w'’]+){0,5}\s*[,;:—–]\s*it['’]?s\b|\bit['’]s not\s+[\w'’]+(?:\s+[\w'’]+){0,5}\.\s+It['’]s\b|\bnot only\b[^.]*\bbut(?:\s+also)?\b|\bnot\s+[\w'’]+(?:\s+[\w'’]+){0,5},\s+but\b|\b(?:is|are|was|were)n['’]?t\s+[\w'’]+(?:\s+[\w'’]+){0,5}\s*[,;:—–]\s*(?:it['’]?s|its|they['’]?re|but|rather)\b|\b(?:is|are|was|were)n['’]t\s+[\w'’]+(?:\s+[\w'’]+){0,5}\.\s+(?:It['’]s|They['’]re)\b|\b(?:does|do|did)n['’]?t\s+[\w'’]+(?:\s+[\w'’]+){0,5};\s+it\b/gi,
+    why: "Negative parallelism: \"it's not X, it's Y\" / \"not X, but Y\" / \"isn't A — it's B\" / \"It's not X. It's Y.\" (period form). LLMs use it ~3x more than humans.",
     fix: "State the claim directly. Cut the negated setup clause. (One deliberate antithesis as a hook is fine — five are a signature.)" },
   { id: "en-inflated-vocab", weight: 3, cap: 18,
-    re: /\b(delve|delving|tapestry|testament|underscore[sd]?|nestled|realm|navigat(?:e|ing)|foster(?:s|ed|ing)?|leverag(?:e|es|ed|ing)|unlock(?:s|ed|ing)?|harness(?:es|ed|ing)?|elevate[sd]?|seamless(?:ly)?|myriad|plethora|boast(?:s|ed|ing)?|vibrant|bustling|intricate|meticulous(?:ly)?|bolster(?:s|ed|ing)?|showcas(?:e|es|ing|ed)|enhanc(?:e|es|ing|ed)|captivating|majestic|fascinating|align(?:s|ed|ing)? with|cutting[- ]edge|bespoke|undoubtedly|flawless(?:ly)?|game[- ]chang(?:er|ing))\b/gi,
+    re: /\b(delve|delving|tapestry|testament|underscore[sd]?|nestled|realm|navigat(?:e|ing)|foster(?:s|ed|ing)?|leverag(?:e|es|ed|ing)|unlock(?:s|ed|ing)?|harness(?:es|ed|ing)?|elevate[sd]?|seamless(?:ly)?|myriad|plethora|boast(?:s|ed|ing)?|vibrant|bustling|intricate|meticulous(?:ly)?|bolster(?:s|ed|ing)?|showcas(?:e|es|ing|ed)|enhanc(?:e|es|ing|ed)|captivating|majestic|fascinating|align(?:s|ed|ing)? with|cutting[- ]edge|bespoke|undoubtedly|flawless(?:ly)?|game[- ]chang(?:er|ing)|transformative|empower(?:s|ed|ing|ment)?|streamlin(?:e|es|ed|ing)|revolutioniz(?:e|es|ed|ing)|holistic(?:ally)?|synerg(?:y|ies|istic)|paradigm shift|plays? a (?:crucial|key|vital|critical|pivotal|central) role|serves? as (?:a|an|the)\b|stands? as (?:a|an|the)\b|continues? to (?:evolve|grow|advance|expand))\b/gi,
     why: "Inflated/promotional vocabulary favored by LLMs (Wikipedia 'Signs of AI writing' set).",
     fix: "Swap for a plain, specific word (use, show, area, field…) or delete." },
   { id: "en-vocab-weak", weight: 2, cap: 8, min: 3,
-    re: /\b(robust|landscape|crucial|vital|pivotal|paramount|profound(?:ly)?)\b/gi,
+    group: "vocab-weak",
+    re: /\b(robust|landscape|crucial|vital|pivotal|paramount|profound(?:ly)?|essential|key (?:factor|role|component|element|driver|milestone|takeaway|insight|ingredient|pillar)s?)\b/gi,
     why: "Cluster of register-ambiguous emphasis words (crucial/vital/robust/landscape…). One or two are normal formal prose; a pile-up is the tell.",
     fix: "Keep the one that earns its place; replace the rest with plain words." },
   { id: "en-transitions", weight: 4, cap: 12,
-    re: /(?:^|[.!?]\s+|\n)\s*(?:moreover|furthermore|additionally|consequently|ultimately|importantly|notably)\b|\b(?:in conclusion|in summary|to sum up|that being said|it['’]?s worth noting|it['’]?s important to note|it is important to note)\b/gi,
+    re: /(?:^|[.!?]\s+|\n)\s*(?:moreover|furthermore|additionally|consequently|ultimately|importantly|notably)\b|\b(?:in conclusion|in summary|in essence|to sum up|that being said|it['’]?s worth noting|it['’]?s important to note|it is important to note)\b/gi,
     why: "Formulaic connective/hedge openers.",
     fix: "Delete or replace with a concrete link. Humans rarely open with 'Moreover'." },
   { id: "en-vague-attribution", weight: 5, cap: 10,
@@ -66,7 +82,7 @@ const EN = [
     why: "Sentence-initial -ing 'analysis' filler.",
     fix: "Start with the subject and a concrete verb instead." },
   { id: "en-trailing-ing", weight: 4, cap: 12,
-    re: /,\s+(highlighting|underscoring|emphasizing|emphasising|reflecting|symbolizing|symbolising|showcasing|demonstrating|illustrating|signaling|signalling|cementing|solidifying|reinforcing|contributing to|paving the way|marking a)\b/gi,
+    re: /,\s+(highlighting|underscoring|emphasizing|emphasising|reflecting|symbolizing|symbolising|showcasing|demonstrating|illustrating|signaling|signalling|cementing|solidifying|reinforcing|contributing to|paving the way|paving new|marking a|ensuring|enabling|allowing|empowering|transforming|streamlining|boosting|offering|providing|helping|driving|fostering|improving|enhancing|delivering|unlocking|creating|resulting in|leading to|making it|setting the stage)\b/gi,
     why: "Trailing '-ing' commentary clause (\"…, highlighting the importance of X\") — superficial analysis filler.",
     fix: "Cut the trailing clause, or make it a direct claim in its own sentence." },
   { id: "en-sycophancy", weight: 3, cap: 6,
@@ -78,8 +94,8 @@ const EN = [
     why: "Cliché scene-setting opener.",
     fix: "Cut it and start with the actual subject." },
   { id: "en-slop-phrases", weight: 5, cap: 20,
-    re: /(?:^|[.!?]\s+|\n)\s*(?:here['’]?s the thing|the bottom line[:?]|let['’]?s break it down|let['’]?s dive in)\b|\bin a world where\b|\byour future self will thank you\b|\bit['’]?s less about\b[^.\n]{0,60}\bmore about\b|\bat the end of the day\b|\bwhat does this mean for you\b/gi,
-    why: "Stock engagement-bait phrasing (\"Here's the thing\", \"The bottom line?\", \"Let's break it down\", \"In a world where…\").",
+    re: /(?:^|[.!?]\s+|\n)\s*(?:here['’]?s the thing|the bottom line[:?]|the (?:result|takeaway|upshot|kicker|catch|verdict|lesson|answer|best part)\?|let['’]?s break it down|let['’]?s dive in|let['’]?s explore|let['’]?s unpack)(?![\w'’])|\bin a world where\b|\byour future self will thank you\b|\bwhether you['’]re a\b|\bit['’]?s less about\b[^.\n]{0,60}\bmore about\b|\bat the end of the day\b|\bwhat does this mean for you\b/gi,
+    why: "Stock engagement-bait phrasing (\"Here's the thing\", \"The result?\", \"Whether you're a…\", \"Let's explore\", \"In a world where…\").",
     fix: "Delete the filler beat and say the point." },
   { id: "en-label-colon", weight: 3, cap: 9,
     re: /(^|\n|[.!?]\s+)The [A-Z][\w-]*(?: [A-Z][\w-]*)?:\s/g,
@@ -89,27 +105,28 @@ const EN = [
 
 const ES = [
   { id: "es-negative-parallel", weight: 6, cap: 18,
-    re: /\bno (?:es|son) (?:solo|sólo|simplemente|meramente|únicamente|unicamente)\b|\bno (?:solo|sólo)\b[^.]*\bsino (?:también|tambien|más bien|mas bien)\b|\bno\s+(?:es|son|se trata(?: solo| sólo)? de)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,5}\s*[,;:—–]\s*(?:sino|se trata|es\b|son\b)/gi,
+    re: /\bno (?:es|son) (?:solo|sólo|simplemente|meramente|únicamente|unicamente)\b|\bno (?:solo|sólo)\b[^.]*\bsino (?:también|tambien|más bien|mas bien)\b|\bno\s+(?:es|son|se trata(?: solo| sólo)? de)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,5}\s*[,;:—–]\s*(?:sino|se trata|es\b|son\b)|\bno (?:es|son)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,4}\.\s+(?:Es|Son|Se trata de)\b/gi,
     why: "Paralelismo negativo: \"no es X, sino Y\" / \"no se trata de X: se trata de Y\".",
     fix: "Afirma directo. Elimina la cláusula de contraste. (Una antítesis como gancho está bien; cinco son firma de IA.)" },
   { id: "es-inflated-vocab", weight: 3, cap: 18,
-    re: /\b(sumérgete|sumergete|sumergirse|desbloquea(?:r(?:l[oa]s?)?|n|ndo)?|potencia(?:r(?:l[oa]s?|se)?|n|ndo)?|fomenta(?:r(?:l[oa]s?)?|n|ndo)?|aprovecha(?:r(?:l[oa]s?)?|n|ndo)?|navegar|tapiz|testimonio|subraya(?:r|n)?|realza(?:r|n)?|sin fisuras|innumerables|un sinf[ií]n|vibrante|bullicioso|intrincado|paisaje|redefine(?:n)?|redefinir|revoluciona(?:r|n)?|de vanguardia|marca(?:n)? la diferencia|impulsad[oa]s? por)\b/gi,
+    re: /\b(sumérgete|sumergete|sumergirse|desbloquea(?:r(?:l[oa]s?)?|n|ndo)?|potencia(?:r(?:l[oa]s?|se)?|n|ndo)?|fomenta(?:r(?:l[oa]s?)?|n|ndo)?|aprovecha(?:r(?:l[oa]s?)?|n|ndo)?|navegar|tapiz|testimonio|subraya(?:r|n)?|realza(?:r|n)?|sin fisuras|innumerables|un sinf[ií]n|vibrante|bullicioso|intrincado|paisaje|redefine(?:n)?|redefinir|revoluciona(?:r|n)?|de vanguardia|marca(?:n)? la diferencia|marca(?:n)? un antes y un después|impulsad[oa]s? por|empoder(?:a(?:r(?:l[oa]s?|se)?|n|ndo)?|amiento)|sinergias?|holístic[oa]s?|holistic[oa]s?|disruptiv[oa]s?|transformador(?:a|es|as)?|un abanico de|herramienta (?:poderosa|potente)|(?:papel|rol|factor|pieza|elemento|aliado) clave)\b/gi,
     why: "Vocabulario inflado/promocional típico de IA (incluye enclíticos: potenciarlo, y gerundios: potenciando).",
     fix: "Cámbialo por una palabra llana y concreta (usar, mostrar, campo…) o elimínalo." },
   { id: "es-vocab-weak", weight: 2, cap: 8, min: 3,
+    group: "vocab-weak",
     re: /\b(robusto|profund(?:o|a|os|as|amente)|crucial|fundamental|primordial|vital|indispensable)\b/gi,
     why: "Racimo de énfasis ambiguo de registro (crucial/fundamental/vital…). Uno o dos son prosa formal normal; el montón es el tell.",
     fix: "Deja el que de verdad aporta; cambia el resto por palabras llanas." },
   { id: "es-calques", weight: 4, cap: 12,
-    re: /\bestá(?:n)? siendo\b|\ben términos de\b|\bjuega(?:n)? un (?:rol|papel)\b|\bjugar un (?:rol|papel)\b|\bal final del día\b|\btomar acción\b|\bhace(?:r)? sentido\b|\bimpacta(?:r|n|ndo)\b/gi,
+    re: /\bestá(?:n)? siendo\b|\ben términos de\b|\bjuega(?:n)? un (?:rol|papel)\b|\bjugar un (?:rol|papel)\b|\bal final del día\b|\btomar acción\b|\bhace(?:r)? sentido\b|\bimpacta(?:r|n|ndo)\b|\bya sea que\b/gi,
     why: "Calco del inglés (pasiva progresiva \"está siendo\", \"en términos de\", \"jugar un rol\", \"impactar\"…).",
     fix: "Reformula en español natural: \"se está transformando\" / \"en cuanto a\" / \"desempeñar un papel\" / \"afectar\"." },
   { id: "es-label-colon", weight: 3, cap: 9,
-    re: /(^|\n|[.!?]\s+)(?:El|La|Lo) [\wáéíóúñÁÉÍÓÚÑ]+:\s|(^|\n|[.!?]\s+)¿(?:La clave|La conclusión|La conclusion|El secreto|La verdad)\?/g,
+    re: /(^|\n|[.!?]\s+)(?:El|La|Lo) [\wáéíóúñÁÉÍÓÚÑ]+:\s|(^|\n|[.!?]\s+)¿(?:La clave|La conclusión|La conclusion|El secreto|La verdad|El resultado|La diferencia|El dato|La razón|La razon|La lección|La leccion|La moraleja|El problema|La solución|La solucion|Lo mejor)\?/g,
     why: "Etiqueta-dos-puntos (\"El dato:\", \"La clave:\") o pregunta-etiqueta retórica (\"¿La clave?\") — plantilla de resumen típica de IA.",
     fix: "Intégralo en la prosa o elimina la etiqueta." },
   { id: "es-transitions", weight: 4, cap: 12,
-    re: /(?:^|[.!?¡¿]\s+|\n)\s*(?:además|asimismo|no obstante|por otro lado|por otra parte|en conclusión|en conclusion|en resumen|en síntesis)\b|\b(?:cabe (?:mencionar|destacar|señalar|resaltar)|es importante (?:destacar|señalar|mencionar|resaltar|tener en cuenta)|es fundamental (?:subrayar|destacar|señalar))\b/gi,
+    re: /(?:^|[.!?¡¿]\s+|\n)\s*(?:además|asimismo|no obstante|por otro lado|por otra parte|en conclusión|en conclusion|en resumen|en síntesis|en definitiva|a continuación|a continuacion|hoy en día|hoy en dia)\b|\b(?:cabe (?:mencionar|destacar|señalar|resaltar)|es importante (?:destacar|señalar|mencionar|resaltar|tener en cuenta)|es fundamental (?:subrayar|destacar|señalar))\b/gi,
     why: "Conectores/muletillas formulaicas de IA.",
     fix: "Elimínalo o usa un enlace concreto. Nadie empieza hablando con 'Además'." },
   { id: "es-vague-attribution", weight: 5, cap: 10,
@@ -124,6 +141,10 @@ const ES = [
     re: /,\s+(destacando|subrayando|resaltando|reflejando|evidenciando|demostrando|ilustrando|consolidando|reforzando|contribuyendo a|marcando un|allanando el camino|optimizando|aliviando|evaluando|mejorando|facilitando|permitiendo|garantizando|impulsando|potenciando|fomentando|transformando|generando|brindando|ofreciendo|asegurando|promoviendo|fortaleciendo|sentando las bases|lo que (?:demuestra|refleja|evidencia|subraya|confirma|pone de manifiesto))\b/gi,
     why: "Coletilla de comentario final (\"…, optimizando X\" / \"…, lo que demuestra Y\") — análisis superficial de relleno.",
     fix: "Corta la coletilla, o conviértela en afirmación directa en su propia frase." },
+  { id: "es-slop-phrases", weight: 5, cap: 20,
+    re: /\btu (?:futuro )?yo (?:del futuro )?te lo agradecer[áa]|\baquí está la cosa\b|\bdesglosemos\b|\bprofundicemos\b|\bqué significa esto para ti\b/gi,
+    why: "Frases de engagement calcadas del slop EN (\"tu futuro yo te lo agradecerá\", \"desglosemos\", \"¿qué significa esto para ti?\").",
+    fix: "Elimina el relleno y di el punto." },
   { id: "es-superficial-ger", weight: 4, cap: 8,
     re: /(^|[.!?]\s+)(explorando|sumergiéndonos|sumergiendonos|adentrándonos|adentrandonos|descubriendo|comprendiendo|aprovechando|navegando)\b/gi,
     why: "Gerundio inicial de 'análisis' de relleno.",
@@ -134,7 +155,7 @@ const ES = [
 // Returns "es", "en", or "mixed" (both languages substantially present —
 // then BOTH rule sets run, so a bilingual doc can't hide half its tells).
 function detectLang(text) {
-  const es = (text.match(/\b(el|la|los|las|de|que|una|para|con|por|como|más|está|son|pero|también|inteligencia)\b/gi) || []).length;
+  const es = (text.match(/\b(el|la|los|las|de|que|una|para|con|por|como|más|está|son|pero|también|es|se|su|lo|del|al)\b/gi) || []).length;
   const en = (text.match(/\b(the|of|and|to|in|is|that|for|with|as|are|this|it|not|but|our)\b/gi) || []).length;
   const total = es + en;
   if (total >= 12 && Math.min(es, en) / total >= 0.3) return "mixed";
@@ -217,6 +238,10 @@ function analyze(text, lang) {
   const rules = [...SHARED, ...(lang === "es" ? ES : lang === "mixed" ? [...EN, ...ES] : EN)];
   const findings = [];
   let patternScore = 0;
+  // In mixed mode, EN and ES rules sharing a `group` (e.g. both weak-vocab
+  // tiers match "crucial"/"vital", identical in both languages) must not
+  // score the same match twice: first rule to claim an index wins.
+  const claimed = new Map();
 
   for (const rule of rules) {
     rule.re.lastIndex = 0;
@@ -224,6 +249,15 @@ function analyze(text, lang) {
     let hits = 0;
     const examples = [];
     while ((m = rule.re.exec(text)) !== null) {
+      if (rule.group) {
+        let set = claimed.get(rule.group);
+        if (!set) { set = new Set(); claimed.set(rule.group, set); }
+        if (set.has(m.index)) {
+          if (m.index === rule.re.lastIndex) rule.re.lastIndex++;
+          continue;
+        }
+        set.add(m.index);
+      }
       hits++;
       if (examples.length < 5) {
         // Anchored rules capture a leading newline — point at the tell itself,
@@ -268,6 +302,24 @@ function analyze(text, lang) {
       const pts = Math.min(4 + (rep.n - 4) * 2, 12);
       burstPenalty += pts;
       burstNotes.push(`${rep.n} sentences open with "${rep.opener}…" — uniform openers read as machine-generated. Vary how sentences start.`);
+    }
+    // Windowed uniformity: a healthy GLOBAL CV can be faked with one or two
+    // short-sentence outliers while the bulk of the text stays robotically
+    // flat. When global CV passes, scan 8-sentence windows for a flat stretch.
+    if (stats.count >= 12 && stats.cv >= 0.5) {
+      let worst = null;
+      const W = 8;
+      for (let i = 0; i + W <= stats.lens.length; i += 4) {
+        const seg = stats.lens.slice(i, i + W);
+        const wm = seg.reduce((a, b) => a + b, 0) / W;
+        const sd = Math.sqrt(seg.reduce((a, b) => a + (b - wm) ** 2, 0) / W);
+        const cv = wm ? sd / wm : 0;
+        if (worst === null || cv < worst.cv) worst = { cv, at: i };
+      }
+      if (worst && worst.cv < 0.22) {
+        burstPenalty += 6;
+        burstNotes.push(`Global variation passes (CV=${stats.cv}) but sentences ${worst.at + 1}-${worst.at + W} are locally uniform (window CV=${worst.cv.toFixed(2)}) — outliers are masking a flat stretch. Vary that section too.`);
+      }
     }
   }
 

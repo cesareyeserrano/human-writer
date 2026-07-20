@@ -19,6 +19,8 @@ LLMs use it roughly 3× more than humans. Watch for ALL its shapes:
 - `isn't A; it's B` — *Its core function isn't search; it's prediction.*
 - `not X, but Y` — *Their job isn't to invent facts, but to point you elsewhere.*
 - `doesn't X; it Y` — *That doesn't reduce your duty; it increases it.*
+- **Period form** — `It's not X. It's Y.` — *It's not magic. It's math.* The
+  two-short-sentences version is the most polished (and most common) shape.
 - Antithesis **section headings** — a heading shaped as "It's not X, it's Y"
   is the same tell in title form.
 
@@ -43,7 +45,12 @@ High-frequency LLM words: *delve, tapestry, testament, underscore, leverage,
 foster, harness, realm, navigate, unlock, elevate, nestled, seamless, myriad,
 plethora, boast, vibrant, bustling, intricate, meticulous, bolster, showcase,
 enhance, captivating, majestic, fascinating, aligns with, cutting-edge,
-bespoke, undoubtedly, flawless, game-changer.*
+bespoke, undoubtedly, flawless, game-changer, transformative, empower,
+streamline, revolutionize, holistic, synergy, paradigm shift.*
+
+**Verbal formulas** in the same register: *plays a crucial/key/vital role
+in…*, *serves as a…*, *stands as a…*, *continues to evolve/grow* (the
+classic LLM paragraph closer).
 
 **Register-ambiguous tier** — *robust, landscape, crucial, vital, pivotal,
 paramount, profound* — is normal in formal human prose (academic papers use
@@ -60,8 +67,8 @@ sentence. If a word is doing real work, keep it — the problem is the cluster.
 ## 3. Formulaic transitions & hedge openers
 
 *Moreover, Furthermore, Additionally, Consequently, Ultimately, In
-conclusion, In summary, That being said, It's important to note, It's worth
-noting, Importantly, Notably.*
+conclusion, In summary, In essence, That being said, It's important to note,
+It's worth noting, Importantly, Notably.*
 
 - ❌ *Moreover, it is important to note that adoption continues to grow.*
 - ✅ *Adoption is still growing — up 40% since last year.*
@@ -86,7 +93,11 @@ Two shapes, same filler. Sentence-initial: *Delving/Exploring/Embracing/
 Navigating…* followed by a vague payoff. And — the more common form per
 Wikipedia's catalog — the **trailing commentary clause** bolted onto the end
 of a sentence: *…, highlighting the importance of X*, *…, underscoring Y*,
-*…, reflecting broader trends*, *…, paving the way for Z*.
+*…, reflecting broader trends*, *…, paving the way for Z*. The same tell
+also comes in an **operative** flavor (mirror of the Spanish "…, optimizando
+X"): *…, ensuring fast load times*, *…, enabling instant dashboards*,
+*…, allowing teams to Y*, *…, empowering/transforming/streamlining/
+boosting/driving/fostering Z*, *…, resulting in / leading to / making it*.
 
 - ❌ *Exploring the future of work, we see endless opportunities.*
 - ✅ *Remote work killed the 9-to-5 for a third of knowledge workers.*
@@ -101,9 +112,11 @@ promote them to their own sentence with a real claim.
 LLM output uses em-dashes far more often than human writing of the same
 genre, and in places where a human would use a comma, colon, or parentheses.
 Watch for the same tell wearing different clothes: a spaced **en-dash**
-(*word – word*) or a spaced **double-hyphen** (*word -- word*) serve the
-exact same function and are just as common in AI output — the scorer
-catches all three. Replace each one **by its function**, not mechanically:
+(*word – word*), a spaced **double-hyphen** (*word -- word*) or a spaced
+**single hyphen** (*word - word*, the usual stand-in on Spanish keyboards)
+serve the exact same function and are just as common in AI output — the
+scorer catches all four. Replace each one **by its function**, not
+mechanically:
 
 - Heading or aside → parentheses: *Lo que está bien (no lo toques)*
 - Before an explanation → colon: *one thing matters: rhythm*
@@ -115,9 +128,10 @@ One expressive em-dash per page is style. Four per paragraph is a signature.
 ## 5c. Engagement-bait slop phrases
 
 Stock "creator voice" beats: *Here's the thing. / The bottom line? /
-Let's break it down. / In a world where… / At the end of the day… /
-What does this mean for you? / Your future self will thank you. /
-It's less about X and more about Y.*
+The result? / The takeaway? / Let's break it down. / Let's explore. /
+Let's unpack. / Whether you're a X or a Y… / In a world where… /
+At the end of the day… / What does this mean for you? /
+Your future self will thank you. / It's less about X and more about Y.*
 
 Fix: delete the beat and say the point. These add rhythm, not content.
 
@@ -187,13 +201,18 @@ quotes unless house style says otherwise.
 
 Before returning humanized text, confirm:
 
-- [ ] **Dashes swept**: every em-dash (—), spaced en-dash (–) or spaced
-      double-hyphen (--) from the original is gone, replaced by function
+- [ ] **Dashes swept**: every em-dash (—), spaced en-dash (–), spaced
+      double-hyphen (--) or spaced single hyphen ( - ) from the original
+      is gone, replaced by function
       (§5b). Keep at most ONE, and only if it's deliberate style. This is
       the most-missed item in field use — check it explicitly, don't trust
       the score (the em-dash rule caps at 9 points, so several dashes
       barely move the number).
-- [ ] No "it's not just X, it's Y" and no "not only… but also" left.
+- [ ] No "it's not just X, it's Y" and no "not only… but also" left —
+      including the period form ("It's not X. It's Y.").
+- [ ] No emoji bullets or bold-label cards ("🚀 **Speed:** …") left.
+- [ ] No trailing "-ing" tails, including operative ones (", ensuring X",
+      ", enabling Y").
 - [ ] Inflated-word cluster gone (delve/tapestry/realm/leverage/foster…).
 - [ ] No sentence opens with Moreover/Furthermore/In conclusion.
 - [ ] Every "studies show" either sourced or removed.

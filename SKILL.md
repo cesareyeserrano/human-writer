@@ -77,7 +77,7 @@ node aidetect.mjs rewrite.txt   # confirm the score fell
    it to a file or pipe the verbatim chat answer through stdin):
 
    ```bash
-   grep -nE '—|–|(\w)--(\w)' final.txt   # must print nothing if you claim "no dashes"
+   grep -nE '—|–|(\w)--(\w)|\w - \w' final.txt   # must print nothing if you claim "no dashes"
    ```
 
    Rules of the gate:
@@ -98,8 +98,9 @@ Delete or replace these. Full catalog + Spanish equivalents in `references/`.
 
 | AI tell | Human fix |
 |---|---|
-| Em-dashes everywhere `—` | Period, comma, or parentheses. Keep ≤1 per few paragraphs. |
-| "It's not just X, it's Y" / "not only… but also" | State the point directly. Cut the setup. |
+| Em-dashes everywhere `—` (also `–`, `--`, spaced ` - `) | Period, comma, or parentheses. Keep ≤1 per few paragraphs. |
+| "It's not just X, it's Y" / "not only… but also" / "It's not X. It's Y." | State the point directly. Cut the setup. |
+| Emoji bullets 🚀✅💡 and bold-label cards "**Speed:** …" | Delete the decoration; fold labels into prose. |
 | Inflated words: *delve, tapestry, testament, underscore, leverage, foster, realm, landscape, navigate, robust, seamless* | Plain verbs: *use, show, area, field*. Or delete. |
 | Formulaic openers: *Moreover, Furthermore, In conclusion, It's important to note* | Delete, or use a concrete link. |
 | Vague attribution: *studies show, experts say* | Name the source + year, or make the claim yourself. |
@@ -149,6 +150,8 @@ node aidetect.mjs samples/ai-sample-es.txt        # ~72 HEAVILY AI-flavored
 node aidetect.mjs samples/human-sample-en.txt     # ~10 reads human
 node aidetect.mjs samples/human-academic-en.txt   # ~14 human academic register stays low
 node aidetect.mjs samples/ai-slop-en.txt          # ~20 engagement-bait slop
+node aidetect.mjs samples/ai-cards-en.txt         # ~73 emoji/bold-label card slop (was 3)
+node aidetect.mjs samples/ai-cards-es.txt         # ~58 slop de tarjetas ES (was 0)
 node aidetect.mjs samples/ai-mixed-en-es.txt      # lang=mixed — both rule sets run
 ```
 

@@ -35,6 +35,10 @@ check samples/ai-slop-es.txt     es 16 60 "ai-slop-es      (slop ES, was 0)"
 # formal academic register is HUMAN — must stay under 'moderately' (30)
 check samples/human-academic-en.txt en 0 25 "human-acad-en   (FP guard, was 47)"
 check samples/human-academic-es.txt es 0 25 "human-acad-es   (FP guard, was 38)"
+# adversarial round 2 (2026-07-20): card-layout slop with emoji/bold-labels,
+# period-form antithesis, operative -ing tails — scored 3 and 0 before the fix
+check samples/ai-cards-en.txt    en 50 90 "ai-cards-en     (card slop, was 3)"
+check samples/ai-cards-es.txt    es 40 85 "ai-cards-es     (card slop ES, was 0)"
 # bilingual doc: mixed mode must see the Spanish-half tells (was 10)
 mixed_lang=$(node aidetect.mjs --json samples/ai-mixed-en-es.txt | node -e "let d='';process.stdin.on('data',c=>d+=c).on('end',()=>console.log(JSON.parse(d).lang))")
 if [ "$mixed_lang" = "mixed" ]; then echo "PASS  mixed-detection  lang=$mixed_lang"; else echo "FAIL  mixed-detection  lang=$mixed_lang (expected mixed)"; fail=1; fi
@@ -83,6 +87,23 @@ Un Futuro Sostenible y Desafiante
 El campo cambia rápido y nadie lo duda." es es-title-case-heading "Title Case headings ES"
 probe "Los drones escanean el campo, optimizando las rutas de riego, aliviando los costos del productor." es es-trailing-ger "gerundio operativo final ES (optimizando/aliviando)"
 
+# adversarial round 2 (2026-07-20) — false negatives closed
+probe "It's not magic. It's math. Success isn't luck. It's consistency." en en-negative-parallel "negative parallelism EN (PERIOD form)"
+probe "La herramienta no es magia. Es matemáticas. El éxito no es suerte. Es constancia." es es-negative-parallel "paralelismo negativo ES (forma con PUNTO)"
+probe "El plan era simple - lanzar rápido - y funcionó bien." es em-dash "guion simple espaciado como raya ( - )"
+probe "It caches queries, enabling instant dashboards, ensuring fast loads, empowering every team." en en-trailing-ing "trailing -ing EN operativo (enabling/ensuring/empowering)"
+probe "Data plays a crucial role here. The report serves as a roadmap. The field continues to evolve." en en-inflated-vocab "formulas verbales EN (plays a role / serves as / continues to evolve)"
+probe "Whether you're a founder or a freelancer, read this. The result? Fewer mistakes. Let's explore why." en en-slop-phrases "slop EN (whether you're a / The result? / let's explore)"
+probe "🚀 Speed matters a lot here.
+✅ Trust is everything for the team." en emoji-decor "emoji decoration (2+)"
+probe "**Speed:** instant results for everyone.
+**Trust:** shared definitions across teams." en bold-label "bold-label cards (**X:** x2)"
+probe "Ya sea que trabajes solo o en equipo, esto te sirve para todo el año." es es-calques "calco ES 'ya sea que'"
+probe "A continuación, los pasos del proceso. En definitiva, es la mejor inversión posible." es es-transitions "transiciones ES (A continuación / En definitiva)"
+probe "El taller fue útil y tu futuro yo te lo agradecerá cuando llegue el cierre." es es-slop-phrases "slop ES (tu futuro yo te lo agradecerá)"
+probe "Probamos el proceso durante un mes. ¿El resultado? Menos errores en cada entrega." es es-label-colon "pregunta-etiqueta ES (¿El resultado?)"
+probe "Es un factor clave y una herramienta poderosa que genera sinergias en el equipo." es es-inflated-vocab "inflado ES (factor clave / herramienta poderosa / sinergias)"
+
 # false-positive guards: these must NOT fire the rule
 noprobe() {
   text="$1"; lang="$2"; rule="$3"; label="$4"
@@ -118,6 +139,19 @@ Museo Nacional de Antropología e Historia de la Ciudad de México
 Universidad Autónoma de Barcelona y Universidad Complutense de Madrid
 Los tres nombres aparecen en la portada del informe anual." es es-title-case-heading "FP guard: líneas de nombres propios ES"
 noprobe "El acceso al crédito resulta crucial y la estabilidad es vital para invertir." es es-vocab-weak "FP guard: 2 palabras de énfasis no puntúan (min 3)"
+
+# adversarial round 2 — FP guards for the new rules
+noprobe "Lista de tareas:
+- comprar pan
+- revisar el informe
+- llamar al cliente" es em-dash "FP guard: bullets markdown no son raya"
+noprobe "El resultado de 5 - 3 es 2, y el periodo 2015 - 2023 completo." es em-dash "FP guard: matemática y rangos con guion espaciado"
+noprobe "Whether you're ready or not, the deadline is Monday for the whole team." en en-slop-phrases "FP guard: 'whether you're ready' (sin artículo) no es slop"
+noprobe "Vi a tu hermana ayer. ¿La conoces? Trabaja en el mismo edificio." es es-label-colon "FP guard: ¿La conoces? no es pregunta-etiqueta"
+noprobe "The system wasn't tested. Its deployment was delayed until next quarter." en en-negative-parallel "FP guard: 'Its' posesivo tras punto no es antítesis"
+noprobe "El informe no es público. Los datos se comparten bajo demanda." es es-negative-parallel "FP guard: punto sin antítesis ES"
+noprobe "Great launch today. The demo went well and nobody asked hard questions." en emoji-decor "FP guard: prosa sin emoji"
+noprobe "**Note:** the docs moved to the new site last week." en bold-label "FP guard: 1 solo bold-label no puntúa (min 2)"
 
 echo ""
 if [ "$fail" -eq 0 ]; then echo "ALL TESTS PASSED"; else echo "SOME TESTS FAILED"; exit 1; fi

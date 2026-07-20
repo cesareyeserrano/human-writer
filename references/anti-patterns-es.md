@@ -14,7 +14,9 @@ humano: recorta, comprime o afirma directo.
 ## 1. Paralelismo negativo — "no es solo X, sino Y"
 
 También: "no solo… sino también", "no se trata de X, sino de Y", "más que
-X, es Y".
+X, es Y". Y la **forma con punto** — *No es magia. Es matemáticas.* — la
+versión más pulida (y más común) del mismo tell: dos frases cortas donde la
+segunda abre con *Es/Son/Se trata de*.
 
 - ❌ *La IA no es simplemente una herramienta, sino más bien una revolución.*
 - ✅ *La IA ya redacta correos, resume reuniones y depura código.*
@@ -28,7 +30,9 @@ Palabras que la IA sobreusa en español: *sumérgete, desbloquear, potenciar,
 fomentar, aprovechar, navegar (por), tapiz, testimonio, subrayar, realzar,
 sin fisuras, un sinfín, innumerables, vibrante, bullicioso, intrincado,
 paisaje, indispensable, redefinir, revolucionar, de vanguardia, marca la
-diferencia, impulsado por.* Cuidado: también en sus formas con **enclítico**
+diferencia, marca un antes y un después, impulsado por, empoderar, sinergia,
+holístico, disruptivo, transformador, un abanico de, herramienta poderosa/
+potente, factor/papel/rol/pieza clave.* Cuidado: también en sus formas con **enclítico**
 (*potenciarlo, desbloquearla*) y en **gerundio** (*potenciando, fomentando*).
 
 **Tier ambiguo de registro** — *crucial, fundamental, primordial, vital,
@@ -46,9 +50,9 @@ elimina la frase.
 ## 3. Conectores y muletillas formulaicas
 
 *Además, Asimismo, No obstante, Por otro lado, Por otra parte, En
-conclusión, En resumen, En síntesis, Cabe mencionar/destacar/señalar/
-resaltar, Es importante destacar/señalar/tener en cuenta, Es fundamental
-subrayar.*
+conclusión, En resumen, En síntesis, En definitiva, A continuación, Hoy en
+día, Cabe mencionar/destacar/señalar/resaltar, Es importante destacar/
+señalar/tener en cuenta, Es fundamental subrayar.*
 
 - ❌ *Además, cabe destacar que es importante señalar la relevancia del tema.*
 - ✅ *La adopción creció 40% en un año.*
@@ -107,10 +111,11 @@ ambientación grandilocuente.)
 
 La IA usa la raya mucho más que un humano del mismo género, y donde iría
 coma, dos puntos o paréntesis. El mismo tell aparece disfrazado: un
-**guion corto con espacios** (*palabra – palabra*) o un **doble guion con
-espacios** (*palabra -- palabra*) cumplen la misma función y son igual de
-comunes en texto de IA — el scorer detecta las tres formas. Reemplaza
-cada una **según su función**:
+**guion corto con espacios** (*palabra – palabra*), un **doble guion con
+espacios** (*palabra -- palabra*) o un **guion simple con espacios**
+(*palabra - palabra*, el sustituto habitual en teclado hispano) cumplen la
+misma función y son igual de comunes en texto de IA — el scorer detecta las
+cuatro formas. Reemplaza cada una **según su función**:
 
 - Encabezado o inciso → paréntesis: *Lo que está bien (no lo toques)*
 - Antes de una explicación → dos puntos
@@ -121,8 +126,11 @@ Una raya expresiva por página es estilo. Cuatro por párrafo son firma.
 
 ## 6c. Frases de "gancho" de creador de contenido
 
-*¿La clave? / ¿La conclusión? / El resultado: / No se trata solo de X: se
-trata de Y / …, lo que demuestra/refleja/evidencia que…*
+*¿La clave? / ¿La conclusión? / ¿El resultado? / ¿La diferencia? /
+¿Lo mejor? / El resultado: / No se trata solo de X: se trata de Y /
+…, lo que demuestra/refleja/evidencia que… / Ya sea que seas X o Y /
+tu futuro yo te lo agradecerá / desglosemos / profundicemos /
+¿qué significa esto para ti?*
 
 Arreglo: elimina el golpe de efecto y di el punto. Son ritmo, no contenido.
 
@@ -185,8 +193,9 @@ Arreglo: funde el contenido en la prosa o quita la etiqueta.
 ## 10. Sobreestructura y formato
 
 Listas con viñetas donde va prosa, un encabezado por cada párrafo corto,
-comillas tipográficas `“ ”` de autoformato, emojis de sección, negritas al
-azar.
+comillas tipográficas `“ ”` de autoformato, **emojis de sección o viñeta**
+(🚀 ✅ 💡 — dos o más ya puntúan en el scorer) y **tarjetas de etiqueta en
+negrita** ("**Velocidad:** …" ×N — también puntúan desde la segunda).
 
 Arreglo: para prosa narrativa, usa párrafos. Reserva las listas para lo que
 de verdad es una lista. Mayúscula solo en la primera palabra de los títulos.
@@ -197,13 +206,16 @@ de verdad es una lista. Mayúscula solo en la primera palabra de los títulos.
 
 Antes de entregar el texto humanizado, confirma:
 
-- [ ] **Rayas barridas**: toda raya (—), guion corto con espacios (–) o
-      doble guion con espacios (--) del original desapareció, reemplazada
+- [ ] **Rayas barridas**: toda raya (—), guion corto con espacios (–),
+      doble guion con espacios (--) o guion simple con espacios ( - )
+      del original desapareció, reemplazada
       según su función (§6b). Deja como máximo UNA, y solo si es estilo
       deliberado. Es el punto que más se escapa en uso real — revísalo
       explícitamente, no confíes en el score (la regla de em-dash topa en
       9 puntos, así que varias rayas apenas mueven el número).
-- [ ] Sin "no es solo X, sino Y" ni "no solo… sino también".
+- [ ] Sin "no es solo X, sino Y" ni "no solo… sino también" — tampoco la
+      forma con punto ("No es X. Es Y.").
+- [ ] Sin tarjetas de emoji/negrita ("🚀 **Velocidad:** …").
 - [ ] Sin racimo de palabras infladas (sumérgete/desbloquear/potenciar/tapiz…).
 - [ ] Ninguna frase abre con Además/Asimismo/En conclusión/Cabe destacar.
 - [ ] Cada "los estudios demuestran" está citado o eliminado.
