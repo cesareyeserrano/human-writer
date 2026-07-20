@@ -419,6 +419,28 @@ Validación previa: ningún fixture del corpus tiene mean>24, así que el
 cambio no mueve ningún score; probe literario humano de frase larga
 (mean 21.9, CV 0.77) da 0.
 
+## Investigación propia de corpus — criterio de necesidad (decidido 2026-07-20)
+
+Decisión del usuario: NO hacer investigación propia de corpus por ahora;
+hacerla solo si se vuelve necesaria. Se vuelve necesaria cuando ocurra
+cualquiera de estos disparadores:
+
+1. **Un FP/FN de campo trazable a un umbral**, no a cobertura de regex
+   (p.ej. texto humano ES real penalizado por ritmo con CV/media dentro de
+   lo normal para su registro). Los gaps de léxico se arreglan con reglas,
+   no con corpus.
+2. **Se construye el perfil de voz** (backlog): `voiceprint.mjs` necesita
+   baselines por registro para que "distancia de voz" signifique algo.
+3. **Se añade el modo `--profile` por registro**: los overrides de pesos
+   por registro (academico/corporativo/literario) no se pueden afinar a
+   mano responsablemente sin distribuciones reales.
+
+Condición de entrada en todo caso: 30-50 textos humanos por idioma/registro
+con procedencia limpia (pre-2022 o autoría verificada). Sin eso, no se hace
+— baselines de corpus contaminado o de registro equivocado (Gutenberg
+literario del XIX para prosa moderna) calibran peor que los umbrales
+actuales afinados a mano y validados por fixtures.
+
 ## Backlog de ideas (sin comprometer)
 
 - **Voz del usuario + aprendizaje continuo** (diseñado 2026-07-20, sin
