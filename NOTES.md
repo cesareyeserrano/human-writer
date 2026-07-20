@@ -322,6 +322,31 @@ español académico normal — FP-propenso; confirmar con textos reales).
 
 ## Backlog de ideas (sin comprometer)
 
+- **Voz del usuario + aprendizaje continuo** (diseñado 2026-07-20, sin
+  implementar). Dos capas de la misma feature:
+  1. *Perfil de voz* — `voiceprint.mjs` mide la huella del usuario sobre
+     2-3 textos genuinamente suyos (ritmo, CV, puntuación/1000 palabras,
+     arranques, primera persona) → `profiles/<nombre>.json` + tarjeta de
+     estilo en prosa con frases citadas (few-shot para la reescritura).
+     Pieza clave: correr aidetect sobre los textos genuinos del usuario —
+     lo que flaguee ahí es su voz legítima, no tell, y genera excepciones
+     automáticas por perfil (`--profile` silencia/baja esas reglas).
+     Resuelve la tensión documentada del Test 3 (humano con 8 em-dashes).
+  2. *Memoria que aprende del uso* — `memory/preferences.md` (destilado,
+     se carga en cada uso) + `memory/log.jsonl` (crudo). Señales:
+     corrección explícita, diff entregado-vs-final del usuario
+     (`learn.mjs` clasifica qué revirtió contra el catálogo), y re-quejas.
+     **Umbral de promoción**: una señal suelta queda como candidata; solo
+     asciende a preferencia/override al repetirse 2-3 veces (mismo método
+     que el tier `min: 3` y el pipeline gap→confirmar→codificar de estas
+     notas). Métrica de éxito: menos correcciones por sesión con el tiempo,
+     medible desde el propio log.
+  - Límites aceptados: aprende solo de lo que ve (pedir la versión final
+    como paso opcional); memoria local y gitignoreada (datos personales),
+    con ejemplo sintético versionado; es memoria estructurada, no
+    entrenamiento. Los textos fuente del usuario jamás entran al repo
+    (mismo criterio que los fixtures sensibles).
+
 - **Perfiles por tipo de texto** (`--profile academico|corporativo|tecnico|
   cientifico|marketing`): overrides de pesos/mins/reglas por registro sobre
   el catálogo actual. El tier débil con `min: 3` fue el primer paso
