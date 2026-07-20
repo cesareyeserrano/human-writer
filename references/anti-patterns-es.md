@@ -16,7 +16,11 @@ humano: recorta, comprime o afirma directo.
 También: "no solo… sino también", "no se trata de X, sino de Y", "más que
 X, es Y". Y la **forma con punto** — *No es magia. Es matemáticas.* — la
 versión más pulida (y más común) del mismo tell: dos frases cortas donde la
-segunda abre con *Es/Son/Se trata de*.
+segunda abre con *Es/Son/Se trata de*. Ojo con la precisión: la forma con
+punto solo es tell cuando el **"No" abre la frase** (ritmo de antítesis);
+"El contrato no es definitivo. Es un borrador…" es elaboración humana
+normal, no paralelismo — el scorer solo cuenta la forma anclada. También
+cuenta *"más que X, es Y"* (*más que una herramienta, es un aliado*).
 
 - ❌ *La IA no es simplemente una herramienta, sino más bien una revolución.*
 - ✅ *La IA ya redacta correos, resume reuniones y depura código.*
@@ -36,10 +40,11 @@ potente, factor/papel/rol/pieza clave.* Cuidado: también en sus formas con **en
 (*potenciarlo, desbloquearla*) y en **gerundio** (*potenciando, fomentando*).
 
 **Tier ambiguo de registro** — *crucial, fundamental, primordial, vital,
-indispensable, profundo, robusto* — es normal en prosa formal humana (un
-paper usa "es fundamental" legítimamente). El scorer solo lo cuenta como
-tell cuando se acumulan 3 o más. Al reescribir: deja el que aporta, poda el
-montón.
+indispensable, profundo, robusto, pieza/factor/papel clave, herramienta
+poderosa/potente* — es normal en prosa formal humana (un paper usa "es
+fundamental" legítimamente; "Marta fue una pieza clave" es español
+corriente). El scorer solo lo cuenta como tell cuando se acumulan 3 o más.
+Al reescribir: deja el que aporta, poda el montón.
 
 - ❌ *Sumérgete en el fascinante mundo del aprendizaje automático y desbloquea un sinfín de posibilidades.*
 - ✅ *El aprendizaje automático ya detecta fraude, ordena anuncios y prioriza urgencias médicas.*
@@ -127,10 +132,17 @@ Una raya expresiva por página es estilo. Cuatro por párrafo son firma.
 ## 6c. Frases de "gancho" de creador de contenido
 
 *¿La clave? / ¿La conclusión? / ¿El resultado? / ¿La diferencia? /
-¿Lo mejor? / El resultado: / No se trata solo de X: se trata de Y /
-…, lo que demuestra/refleja/evidencia que… / Ya sea que seas X o Y /
-tu futuro yo te lo agradecerá / desglosemos / profundicemos /
-¿qué significa esto para ti?*
+¿Lo mejor? / ¿La buena noticia? / El resultado: / No se trata solo de X: se
+trata de Y / …, lo que demuestra/refleja/evidencia que… / Ya sea que seas
+X o Y / tu futuro yo te lo agradecerá / desglosemos / profundicemos /
+¿qué significa esto para ti? / Así de simple. / Y eso lo cambia todo. /
+No es casualidad que… / ¿Por qué importa esto?*
+
+Precisión (no confundir con habla humana normal): *"ya sea que llueva o
+no"* (impersonal) y *"A continuación, retira los tornillos"* (instrucción
+secuencial) son español corriente — el tell es la forma de listicle
+dirigida al lector (*"Ya sea que seas emprendedor…"*, *"A continuación,
+veremos/te presento…"*), y así lo distingue el scorer.
 
 Arreglo: elimina el golpe de efecto y di el punto. Son ritmo, no contenido.
 

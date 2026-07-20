@@ -89,7 +89,7 @@ probe "Los drones escanean el campo, optimizando las rutas de riego, aliviando l
 
 # adversarial round 2 (2026-07-20) — false negatives closed
 probe "It's not magic. It's math. Success isn't luck. It's consistency." en en-negative-parallel "negative parallelism EN (PERIOD form)"
-probe "La herramienta no es magia. Es matemáticas. El éxito no es suerte. Es constancia." es es-negative-parallel "paralelismo negativo ES (forma con PUNTO)"
+probe "No es magia. Es matemáticas. No es suerte. Es constancia aplicada cada semana." es es-negative-parallel "paralelismo negativo ES (forma con PUNTO, inicio de frase)"
 probe "El plan era simple - lanzar rápido - y funcionó bien." es em-dash "guion simple espaciado como raya ( - )"
 probe "It caches queries, enabling instant dashboards, ensuring fast loads, empowering every team." en en-trailing-ing "trailing -ing EN operativo (enabling/ensuring/empowering)"
 probe "Data plays a crucial role here. The report serves as a roadmap. The field continues to evolve." en en-inflated-vocab "formulas verbales EN (plays a role / serves as / continues to evolve)"
@@ -99,10 +99,23 @@ probe "🚀 Speed matters a lot here.
 probe "**Speed:** instant results for everyone.
 **Trust:** shared definitions across teams." en bold-label "bold-label cards (**X:** x2)"
 probe "Ya sea que trabajes solo o en equipo, esto te sirve para todo el año." es es-calques "calco ES 'ya sea que'"
-probe "A continuación, los pasos del proceso. En definitiva, es la mejor inversión posible." es es-transitions "transiciones ES (A continuación / En definitiva)"
+probe "A continuación, veremos los pasos del proceso. En definitiva, es la mejor inversión posible." es es-transitions "transiciones ES (A continuación presentacional / En definitiva)"
 probe "El taller fue útil y tu futuro yo te lo agradecerá cuando llegue el cierre." es es-slop-phrases "slop ES (tu futuro yo te lo agradecerá)"
 probe "Probamos el proceso durante un mes. ¿El resultado? Menos errores en cada entrega." es es-label-colon "pregunta-etiqueta ES (¿El resultado?)"
-probe "Es un factor clave y una herramienta poderosa que genera sinergias en el equipo." es es-inflated-vocab "inflado ES (factor clave / herramienta poderosa / sinergias)"
+probe "Es un factor clave y una herramienta poderosa que genera sinergias en el equipo." es es-inflated-vocab "inflado ES (sinergias; clave/poderosa ahora son tier débil)"
+
+# adversarial round 3 (2026-07-20): precision + fresh slop angles
+probe "Más que una herramienta, es un aliado estratégico para el negocio." es es-negative-parallel "paralelismo ES 'más que X, es Y'"
+probe "No es magia. Es matemáticas aplicadas con paciencia." es es-negative-parallel "paralelismo ES punto (inicio de frase)"
+probe "La migración salió bien. Así de simple. Y eso lo cambia todo para el equipo." es es-slop-phrases "slop ES (así de simple / y eso lo cambia todo)"
+probe "No es casualidad que las mejores empresas la adopten primero." es es-slop-phrases "slop ES (no es casualidad que)"
+probe "La analítica se ha convertido en un pilar del negocio moderno." es es-inflated-vocab "inflado ES (convertido en un pilar)"
+probe "Probamos dos meses. ¿La buena noticia? Funciona sin cambiar el proceso." es es-label-colon "pregunta-etiqueta ES (¿La buena noticia?)"
+probe "Stop chasing metrics. Start chasing outcomes that customers notice." en en-slop-phrases "slop EN (Stop X-ing. Start Y-ing.)"
+probe "Here's why: metrics lie when nobody owns them. Think about it." en en-slop-phrases "slop EN (Here's why / Think about it)"
+probe "Most teams drown in tickets. That's where automation comes in." en en-slop-phrases "slop EN (that's where X comes in)"
+probe "Not hype. Not magic. Just compound learning applied daily." en en-slop-phrases "slop EN (Not A. Not B. Just C.)"
+probe "Data has become a cornerstone of modern business strategy." en en-inflated-vocab "inflado EN (become a cornerstone)"
 
 # false-positive guards: these must NOT fire the rule
 noprobe() {
@@ -152,6 +165,16 @@ noprobe "The system wasn't tested. Its deployment was delayed until next quarter
 noprobe "El informe no es público. Los datos se comparten bajo demanda." es es-negative-parallel "FP guard: punto sin antítesis ES"
 noprobe "Great launch today. The demo went well and nobody asked hard questions." en emoji-decor "FP guard: prosa sin emoji"
 noprobe "**Note:** the docs moved to the new site last week." en bold-label "FP guard: 1 solo bold-label no puntúa (min 2)"
+
+# adversarial round 3 — precision guards (prosa humana legítima debe callar)
+noprobe "El contrato no es definitivo. Es un borrador que legal revisa esta semana." es es-negative-parallel "FP guard: negación-punto a mitad de frase (elaboración humana)"
+noprobe "Desconecta el equipo. A continuación, retira los cuatro tornillos de la tapa." es es-transitions "FP guard: 'A continuación' instructivo (sin marco presentacional)"
+noprobe "Hoy en día casi nadie imprime fotos, y mi abuela tenía cajas enteras." es es-transitions "FP guard: 'hoy en día' ya no puntúa (humano frecuente)"
+noprobe "Ya sea que llueva o haga sol, el partido se juega el sábado." es es-calques "FP guard: 'ya sea que llueva' (impersonal, gramática normal)"
+noprobe "Marta fue una pieza clave del proyecto y el torno es una herramienta potente." es es-vocab-weak "FP guard: pieza clave + herramienta potente (2 hits < min 3)"
+noprobe "Más que nunca, es importante revisar las cifras antes de publicar." es es-negative-parallel "FP guard: 'más que nunca, es' no es paralelismo"
+noprobe "The good news is that we passed the audit without findings." en en-slop-phrases "FP guard: 'the good news is that' (no forma pregunta)"
+noprobe "She told me to stop worrying about the launch date entirely." en en-slop-phrases "FP guard: 'stop worrying' sin 'Start X-ing'"
 
 echo ""
 if [ "$fail" -eq 0 ]; then echo "ALL TESTS PASSED"; else echo "SOME TESTS FAILED"; exit 1; fi

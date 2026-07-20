@@ -373,6 +373,52 @@ se toca sin evidencia. Idea a explorar: recompensar el *rango* (presencia de
 frases largas Y cortas) en vez de penalizar la media. Probar contra
 human-academic-* antes de cualquier cambio.
 
+## Ronda adversarial 3 — precisión + slop fresco · 2026-07-20
+
+Ataque doble sobre el estado post-ronda-2: FP contra las reglas nuevas
+(precisión) y FN con ángulos de slop no probados (efectividad). Todo
+validado contra el corpus-oro; suite 64→83 checks en verde.
+
+**Falsos positivos cazados y corregidos (el pecado capital):**
+- **Negación-punto ES disparaba en elaboración humana** ("El contrato no es
+  definitivo. Es un borrador…" → ×2, +12, score 24). FIX: la forma con
+  punto ahora exige "No" a INICIO de frase (ritmo de antítesis); la
+  elaboración con sujeto antepuesto calla. Costo FN asumido: la IA que
+  escribe "La IA no es una moda. Es un cambio." con sujeto se escapa de
+  esta rama (las formas con coma/sino la siguen cazando).
+- **"A continuación" instructivo** (+4 en un manual humano): ahora exige
+  marco presentacional de listicle ("A continuación, veremos/te
+  presento/exploraremos…"); la instrucción secuencial ("A continuación,
+  retira los tornillos") calla.
+- **"Hoy en día" eliminado** de transiciones (adición de ronda 2, refutada
+  por precisión: humanísimo en blogs ES).
+- **"Ya sea que llueva"** (impersonal, gramática normal) callaba mal: ahora
+  el calco exige verbo en 2ª persona ("Ya sea que seas/tengas/trabajes…").
+- **"pieza/factor clave" y "herramienta poderosa/potente"** degradadas de
+  inflado (puntúa desde 1) a tier débil (min 3): "Marta fue una pieza
+  clave" es español corriente.
+
+**Falsos negativos cerrados (6 clústeres, todos daban 0 hits):**
+- EN: "Stop X-ing. Start Y-ing.", "Here's why/how/what", "Think about it",
+  "Picture/Imagine this", "Simply put", "It's that simple", "That's where X
+  comes in", "The good news?", "Why does this matter?", "Not A. Not B.
+  Just C." (anáfora), "become a cornerstone/staple/go-to".
+- ES: "Más que X, es Y" (¡estaba en el catálogo §1 desde el inicio y el
+  scorer nunca lo tuvo!), "Así de simple", "Y eso lo cambia todo", "No es
+  casualidad que", "¿La buena noticia?", "la buena noticia es que",
+  "convertido en un pilar/referente", "se posiciona como", "en pocas
+  palabras", "¿Por qué importa esto?".
+- Descartados a propósito por precisión: "Ojo:", "Spoiler:" (coloquial
+  humano frecuente), "why it matters" sin pregunta (estilo de casa
+  periodístico, p.ej. Axios), "Enter X." (FP con el verbo normal).
+
+**Candidata de la investigación APLICADA (validada contra corpus antes):**
+el penalti mean>24 ahora solo dispara con CV<0.5 (largo Y uniforme =
+máquina; largo y variado = voz humana de frase larga, human-patterns A1).
+Validación previa: ningún fixture del corpus tiene mean>24, así que el
+cambio no mueve ningún score; probe literario humano de frase larga
+(mean 21.9, CV 0.77) da 0.
+
 ## Backlog de ideas (sin comprometer)
 
 - **Voz del usuario + aprendizaje continuo** (diseñado 2026-07-20, sin

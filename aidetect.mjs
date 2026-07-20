@@ -61,7 +61,7 @@ const EN = [
     why: "Negative parallelism: \"it's not X, it's Y\" / \"not X, but Y\" / \"isn't A — it's B\" / \"It's not X. It's Y.\" (period form). LLMs use it ~3x more than humans.",
     fix: "State the claim directly. Cut the negated setup clause. (One deliberate antithesis as a hook is fine — five are a signature.)" },
   { id: "en-inflated-vocab", weight: 3, cap: 18,
-    re: /\b(delve|delving|tapestry|testament|underscore[sd]?|nestled|realm|navigat(?:e|ing)|foster(?:s|ed|ing)?|leverag(?:e|es|ed|ing)|unlock(?:s|ed|ing)?|harness(?:es|ed|ing)?|elevate[sd]?|seamless(?:ly)?|myriad|plethora|boast(?:s|ed|ing)?|vibrant|bustling|intricate|meticulous(?:ly)?|bolster(?:s|ed|ing)?|showcas(?:e|es|ing|ed)|enhanc(?:e|es|ing|ed)|captivating|majestic|fascinating|align(?:s|ed|ing)? with|cutting[- ]edge|bespoke|undoubtedly|flawless(?:ly)?|game[- ]chang(?:er|ing)|transformative|empower(?:s|ed|ing|ment)?|streamlin(?:e|es|ed|ing)|revolutioniz(?:e|es|ed|ing)|holistic(?:ally)?|synerg(?:y|ies|istic)|paradigm shift|plays? a (?:crucial|key|vital|critical|pivotal|central) role|serves? as (?:a|an|the)\b|stands? as (?:a|an|the)\b|continues? to (?:evolve|grow|advance|expand))\b/gi,
+    re: /\b(delve|delving|tapestry|testament|underscore[sd]?|nestled|realm|navigat(?:e|ing)|foster(?:s|ed|ing)?|leverag(?:e|es|ed|ing)|unlock(?:s|ed|ing)?|harness(?:es|ed|ing)?|elevate[sd]?|seamless(?:ly)?|myriad|plethora|boast(?:s|ed|ing)?|vibrant|bustling|intricate|meticulous(?:ly)?|bolster(?:s|ed|ing)?|showcas(?:e|es|ing|ed)|enhanc(?:e|es|ing|ed)|captivating|majestic|fascinating|align(?:s|ed|ing)? with|cutting[- ]edge|bespoke|undoubtedly|flawless(?:ly)?|game[- ]chang(?:er|ing)|transformative|empower(?:s|ed|ing|ment)?|streamlin(?:e|es|ed|ing)|revolutioniz(?:e|es|ed|ing)|holistic(?:ally)?|synerg(?:y|ies|istic)|paradigm shift|plays? a (?:crucial|key|vital|critical|pivotal|central) role|serves? as (?:a|an|the)\b|stands? as (?:a|an|the)\b|continues? to (?:evolve|grow|advance|expand)|becom(?:e|es|ing) a (?:cornerstone|staple|go[- ]to)\b)\b/gi,
     why: "Inflated/promotional vocabulary favored by LLMs (Wikipedia 'Signs of AI writing' set).",
     fix: "Swap for a plain, specific word (use, show, area, field…) or delete." },
   { id: "en-vocab-weak", weight: 2, cap: 8, min: 3,
@@ -94,8 +94,8 @@ const EN = [
     why: "Cliché scene-setting opener.",
     fix: "Cut it and start with the actual subject." },
   { id: "en-slop-phrases", weight: 5, cap: 20,
-    re: /(?:^|[.!?]\s+|\n)\s*(?:here['’]?s the thing|the bottom line[:?]|the (?:result|takeaway|upshot|kicker|catch|verdict|lesson|answer|best part)\?|let['’]?s break it down|let['’]?s dive in|let['’]?s explore|let['’]?s unpack)(?![\w'’])|\bin a world where\b|\byour future self will thank you\b|\bwhether you['’]re a\b|\bit['’]?s less about\b[^.\n]{0,60}\bmore about\b|\bat the end of the day\b|\bwhat does this mean for you\b/gi,
-    why: "Stock engagement-bait phrasing (\"Here's the thing\", \"The result?\", \"Whether you're a…\", \"Let's explore\", \"In a world where…\").",
+    re: /(?:^|[.!?]\s+|\n)\s*(?:here['’]?s the thing|here['’]?s (?:why|how|what)|the bottom line[:?]|the (?:result|takeaway|upshot|kicker|catch|verdict|lesson|answer|best part|good news|bad news)\?|let['’]?s break it down|let['’]?s dive in|let['’]?s explore|let['’]?s unpack|think about it|picture this|imagine this|simply put|put simply|it['’]?s that simple|why does this matter\?)(?![\w'’])|\bin a world where\b|\byour future self will thank you\b|\bwhether you['’]re a\b|\bit['’]?s less about\b[^.\n]{0,60}\bmore about\b|\bat the end of the day\b|\bwhat does this mean for you\b|\bthat['’]?s where\b[^.\n]{0,40}\bcomes? in\b|\bStop [a-z]+ing\b[^.!?\n]{0,40}\.\s+Start [a-z]+ing\b|\bNot [^.!?\n]{1,25}\.\s+Not [^.!?\n]{1,25}\.\s+Just\b/gi,
+    why: "Stock engagement-bait phrasing (\"Here's why\", \"The result?\", \"Think about it\", \"Simply put\", \"That's where X comes in\", \"Stop X-ing. Start Y-ing.\", \"Not A. Not B. Just C.\").",
     fix: "Delete the filler beat and say the point." },
   { id: "en-label-colon", weight: 3, cap: 9,
     re: /(^|\n|[.!?]\s+)The [A-Z][\w-]*(?: [A-Z][\w-]*)?:\s/g,
@@ -105,28 +105,28 @@ const EN = [
 
 const ES = [
   { id: "es-negative-parallel", weight: 6, cap: 18,
-    re: /\bno (?:es|son) (?:solo|sólo|simplemente|meramente|únicamente|unicamente)\b|\bno (?:solo|sólo)\b[^.]*\bsino (?:también|tambien|más bien|mas bien)\b|\bno\s+(?:es|son|se trata(?: solo| sólo)? de)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,5}\s*[,;:—–]\s*(?:sino|se trata|es\b|son\b)|\bno (?:es|son)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,4}\.\s+(?:Es|Son|Se trata de)\b/gi,
-    why: "Paralelismo negativo: \"no es X, sino Y\" / \"no se trata de X: se trata de Y\".",
+    re: /\bno (?:es|son) (?:solo|sólo|simplemente|meramente|únicamente|unicamente)\b|\bno (?:solo|sólo)\b[^.]*\bsino (?:también|tambien|más bien|mas bien)\b|\bno\s+(?:es|son|se trata(?: solo| sólo)? de)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,5}\s*[,;:—–]\s*(?:sino|se trata|es\b|son\b)|(?:^|[.!?¡¿]\s+|\n)\s*No (?:es|son)\s+[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,4}\.\s+(?:Es|Son|Se trata de)\b|\bmás que (?:un[ao]?s? )?(?!nunca|antes|nada|eso)[\wáéíóúñü'’]+(?:\s+[\wáéíóúñü'’]+){0,3},\s+es\b/gi,
+    why: "Paralelismo negativo: \"no es X, sino Y\" / \"no se trata de X: se trata de Y\" / \"No es X. Es Y.\" (con punto, solo a inicio de frase) / \"más que X, es Y\".",
     fix: "Afirma directo. Elimina la cláusula de contraste. (Una antítesis como gancho está bien; cinco son firma de IA.)" },
   { id: "es-inflated-vocab", weight: 3, cap: 18,
-    re: /\b(sumérgete|sumergete|sumergirse|desbloquea(?:r(?:l[oa]s?)?|n|ndo)?|potencia(?:r(?:l[oa]s?|se)?|n|ndo)?|fomenta(?:r(?:l[oa]s?)?|n|ndo)?|aprovecha(?:r(?:l[oa]s?)?|n|ndo)?|navegar|tapiz|testimonio|subraya(?:r|n)?|realza(?:r|n)?|sin fisuras|innumerables|un sinf[ií]n|vibrante|bullicioso|intrincado|paisaje|redefine(?:n)?|redefinir|revoluciona(?:r|n)?|de vanguardia|marca(?:n)? la diferencia|marca(?:n)? un antes y un después|impulsad[oa]s? por|empoder(?:a(?:r(?:l[oa]s?|se)?|n|ndo)?|amiento)|sinergias?|holístic[oa]s?|holistic[oa]s?|disruptiv[oa]s?|transformador(?:a|es|as)?|un abanico de|herramienta (?:poderosa|potente)|(?:papel|rol|factor|pieza|elemento|aliado) clave)\b/gi,
+    re: /\b(sumérgete|sumergete|sumergirse|desbloquea(?:r(?:l[oa]s?)?|n|ndo)?|potencia(?:r(?:l[oa]s?|se)?|n|ndo)?|fomenta(?:r(?:l[oa]s?)?|n|ndo)?|aprovecha(?:r(?:l[oa]s?)?|n|ndo)?|navegar|tapiz|testimonio|subraya(?:r|n)?|realza(?:r|n)?|sin fisuras|innumerables|un sinf[ií]n|vibrante|bullicioso|intrincado|paisaje|redefine(?:n)?|redefinir|revoluciona(?:r|n)?|de vanguardia|marca(?:n)? la diferencia|marca(?:n)? un antes y un después|impulsad[oa]s? por|empoder(?:a(?:r(?:l[oa]s?|se)?|n|ndo)?|amiento)|sinergias?|holístic[oa]s?|holistic[oa]s?|disruptiv[oa]s?|transformador(?:a|es|as)?|un abanico de|convertid[oa] en un (?:pilar|referente|aliado)|se posiciona(?:n)? como)\b/gi,
     why: "Vocabulario inflado/promocional típico de IA (incluye enclíticos: potenciarlo, y gerundios: potenciando).",
     fix: "Cámbialo por una palabra llana y concreta (usar, mostrar, campo…) o elimínalo." },
   { id: "es-vocab-weak", weight: 2, cap: 8, min: 3,
     group: "vocab-weak",
-    re: /\b(robusto|profund(?:o|a|os|as|amente)|crucial|fundamental|primordial|vital|indispensable)\b/gi,
+    re: /\b(robusto|profund(?:o|a|os|as|amente)|crucial|fundamental|primordial|vital|indispensable|(?:papel|rol|factor|pieza|elemento|aliado) clave|herramienta (?:poderosa|potente))\b/gi,
     why: "Racimo de énfasis ambiguo de registro (crucial/fundamental/vital…). Uno o dos son prosa formal normal; el montón es el tell.",
     fix: "Deja el que de verdad aporta; cambia el resto por palabras llanas." },
   { id: "es-calques", weight: 4, cap: 12,
-    re: /\bestá(?:n)? siendo\b|\ben términos de\b|\bjuega(?:n)? un (?:rol|papel)\b|\bjugar un (?:rol|papel)\b|\bal final del día\b|\btomar acción\b|\bhace(?:r)? sentido\b|\bimpacta(?:r|n|ndo)\b|\bya sea que\b/gi,
+    re: /\bestá(?:n)? siendo\b|\ben términos de\b|\bjuega(?:n)? un (?:rol|papel)\b|\bjugar un (?:rol|papel)\b|\bal final del día\b|\btomar acción\b|\bhace(?:r)? sentido\b|\bimpacta(?:r|n|ndo)\b|\bya sea que (?:seas|estés|estes|tengas|trabajes|dirijas|busques|quieras|necesites|lideres|gestiones|manejes|empieces|prefieras)\b/gi,
     why: "Calco del inglés (pasiva progresiva \"está siendo\", \"en términos de\", \"jugar un rol\", \"impactar\"…).",
     fix: "Reformula en español natural: \"se está transformando\" / \"en cuanto a\" / \"desempeñar un papel\" / \"afectar\"." },
   { id: "es-label-colon", weight: 3, cap: 9,
-    re: /(^|\n|[.!?]\s+)(?:El|La|Lo) [\wáéíóúñÁÉÍÓÚÑ]+:\s|(^|\n|[.!?]\s+)¿(?:La clave|La conclusión|La conclusion|El secreto|La verdad|El resultado|La diferencia|El dato|La razón|La razon|La lección|La leccion|La moraleja|El problema|La solución|La solucion|Lo mejor)\?/g,
+    re: /(^|\n|[.!?]\s+)(?:El|La|Lo) [\wáéíóúñÁÉÍÓÚÑ]+:\s|(^|\n|[.!?]\s+)¿(?:La clave|La conclusión|La conclusion|El secreto|La verdad|El resultado|La diferencia|El dato|La razón|La razon|La lección|La leccion|La moraleja|El problema|La solución|La solucion|Lo mejor|La buena noticia|La mala noticia)\?/g,
     why: "Etiqueta-dos-puntos (\"El dato:\", \"La clave:\") o pregunta-etiqueta retórica (\"¿La clave?\") — plantilla de resumen típica de IA.",
     fix: "Intégralo en la prosa o elimina la etiqueta." },
   { id: "es-transitions", weight: 4, cap: 12,
-    re: /(?:^|[.!?¡¿]\s+|\n)\s*(?:además|asimismo|no obstante|por otro lado|por otra parte|en conclusión|en conclusion|en resumen|en síntesis|en definitiva|a continuación|a continuacion|hoy en día|hoy en dia)\b|\b(?:cabe (?:mencionar|destacar|señalar|resaltar)|es importante (?:destacar|señalar|mencionar|resaltar|tener en cuenta)|es fundamental (?:subrayar|destacar|señalar))\b/gi,
+    re: /(?:^|[.!?¡¿]\s+|\n)\s*(?:además|asimismo|no obstante|por otro lado|por otra parte|en conclusión|en conclusion|en resumen|en síntesis|en definitiva|en pocas palabras)\b|\ba continuaci[oó]n,? (?:te|les?|se los?|veremos|verás|veras|exploraremos|presentamos|presento|repasamos|analizaremos|encontrarás|encontraras|desglosamos|comparto|muestro|explico)\b|\b(?:cabe (?:mencionar|destacar|señalar|resaltar)|es importante (?:destacar|señalar|mencionar|resaltar|tener en cuenta)|es fundamental (?:subrayar|destacar|señalar))\b/gi,
     why: "Conectores/muletillas formulaicas de IA.",
     fix: "Elimínalo o usa un enlace concreto. Nadie empieza hablando con 'Además'." },
   { id: "es-vague-attribution", weight: 5, cap: 10,
@@ -142,7 +142,7 @@ const ES = [
     why: "Coletilla de comentario final (\"…, optimizando X\" / \"…, lo que demuestra Y\") — análisis superficial de relleno.",
     fix: "Corta la coletilla, o conviértela en afirmación directa en su propia frase." },
   { id: "es-slop-phrases", weight: 5, cap: 20,
-    re: /\btu (?:futuro )?yo (?:del futuro )?te lo agradecer[áa]|\baquí está la cosa\b|\bdesglosemos\b|\bprofundicemos\b|\bqué significa esto para ti\b/gi,
+    re: /\btu (?:futuro )?yo (?:del futuro )?te lo agradecer[áa]|\baquí está la cosa\b|\bdesglosemos\b|\bprofundicemos\b|\bqué significa esto para ti\b|\bas[ií] de simple\b|\by eso lo cambia todo\b|\bno es casualidad que\b|\bla buena noticia es que\b|\bpor qué importa esto\b/gi,
     why: "Frases de engagement calcadas del slop EN (\"tu futuro yo te lo agradecerá\", \"desglosemos\", \"¿qué significa esto para ti?\").",
     fix: "Elimina el relleno y di el punto." },
   { id: "es-superficial-ger", weight: 4, cap: 8,
@@ -296,7 +296,12 @@ function analyze(text, lang) {
   if (stats.count >= 4) {
     if (stats.cv < 0.35) { burstPenalty += 12; burstNotes.push(`Low sentence-length variation (CV=${stats.cv}). Humans vary more — mix short punchy sentences with long ones.`); }
     else if (stats.cv < 0.5) { burstPenalty += 6; burstNotes.push(`Somewhat uniform sentence length (CV=${stats.cv}). Add a few very short and very long sentences.`); }
-    if (stats.mean > 24) { burstPenalty += 6; burstNotes.push(`High mean sentence length (${stats.mean} words). Cut some sentences in half.`); }
+    // Long sentences alone are NOT an AI tell — humans produce long sentences
+    // MORE often than LLMs (which cluster in a 10-30-word band; see
+    // references/human-patterns.md A1). Only penalize length when it comes
+    // with uniformity: long AND flat is machine drone, long AND varied is a
+    // legitimate human long-form voice.
+    if (stats.mean > 24 && stats.cv < 0.5) { burstPenalty += 6; burstNotes.push(`High mean sentence length (${stats.mean} words) with low variation. Cut some sentences in half.`); }
     const rep = openerRepetition(stats.sentences);
     if (rep) {
       const pts = Math.min(4 + (rep.n - 4) * 2, 12);

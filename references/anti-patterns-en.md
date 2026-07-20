@@ -50,7 +50,7 @@ streamline, revolutionize, holistic, synergy, paradigm shift.*
 
 **Verbal formulas** in the same register: *plays a crucial/key/vital role
 in…*, *serves as a…*, *stands as a…*, *continues to evolve/grow* (the
-classic LLM paragraph closer).
+classic LLM paragraph closer), *has become a cornerstone/staple/go-to*.
 
 **Register-ambiguous tier** — *robust, landscape, crucial, vital, pivotal,
 paramount, profound* — is normal in formal human prose (academic papers use
@@ -127,11 +127,14 @@ One expressive em-dash per page is style. Four per paragraph is a signature.
 
 ## 5c. Engagement-bait slop phrases
 
-Stock "creator voice" beats: *Here's the thing. / The bottom line? /
-The result? / The takeaway? / Let's break it down. / Let's explore. /
-Let's unpack. / Whether you're a X or a Y… / In a world where… /
-At the end of the day… / What does this mean for you? /
-Your future self will thank you. / It's less about X and more about Y.*
+Stock "creator voice" beats: *Here's the thing. / Here's why. / The bottom
+line? / The result? / The takeaway? / The good news? / Let's break it down. /
+Let's explore. / Let's unpack. / Think about it. / Picture this. / Simply
+put… / It's that simple. / Why does this matter? / That's where X comes in. /
+Stop X-ing. Start Y-ing. / Not A. Not B. Just C. / Whether you're a X or a
+Y… / In a world where… / At the end of the day… / What does this mean for
+you? / Your future self will thank you. / It's less about X and more about
+Y.*
 
 Fix: delete the beat and say the point. These add rhythm, not content.
 
