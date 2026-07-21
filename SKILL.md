@@ -92,6 +92,16 @@ node aidetect.mjs rewrite.txt   # confirm the score fell
      the claim "X is gone" requires a mechanical check for X on the
      delivered text.
 
+6. **DELIVER the full rewritten text — always, unprompted.** The text IS
+   the deliverable; the score and the change-list are not. End your reply
+   with the complete humanized text, in full, verbatim, ready to copy. Do
+   not summarize it, truncate it, or point to it ("final text above",
+   "listo para usar") — paste the whole thing. Order: (a) one line with
+   before/after score, (b) a brief bullet list of what you changed, then
+   (c) the full text as the last thing in the reply. Field failure: agents
+   keep ending on the change-list, forcing the user to ask "where's the
+   text?" every single time. If the user asked to humanize it, output it.
+
 ## The rules, in one screen
 
 Delete or replace these. Full catalog + Spanish equivalents in `references/`.
